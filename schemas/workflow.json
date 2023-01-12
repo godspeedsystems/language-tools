@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Godspeed Workflow Delaration",
+  "description": "A recipe for Godspeed workflow.",
+  "type": "object",
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "the title of the workflow, meta info about the workflow"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detail description of workflow"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique ID for the workflow, It is recommanded for better logging visibility."
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/task"
+      },
+      "description": "The tasks (workflows or sub-workflows) to be run in series (sequence, or one by one). The tasks invoke other workflows written in YAML or JS/TS. \n Default value is `sequence`"
+    }
+  },
+  "definitions": {
+    "retry": {
+      "type": "object",
+      "properties": {
+        "max_attempts": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "allOf": {
+          "id": {
+            "type": "string",
+            "description": "ID of the task, in subsequent tasks, you can access the output of task through this unique ID.",
+            "examples": [
+              "Suppose ID of a task is `my_task`, then in upcoming task, you can access the output of this task as `outputs.my.task`"
+            ]
+          },
+          "fn": {
+            "type": "string",
+            "enum": [
+              "com.gs.return",
+              "com.gs.http",
+              "com.gs.kafka",
+              "com.gs.datastore",
+              "com.gs.elasticgraph",
+              "com.gs.transform",
+              "com.gs.series",
+              "com.gs.parallel",
+              "com.gs.switch",
+              "com.gs.each_sequential",
+              "com.gs.each_parallel",
+              "com.gs.log",
+              "com.gs.dynamic_fn",
+              "com.gs.aws",
+              "com.gs.redis"
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "retry": {
+              "$ref": "#/definitions/retry"
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "fn": { "const": "com.gs.return" }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "description": "args for `com.gs.return` can be a object or a script.",
+                "examples": ["inputs.<ID>.<somevalue>"],
+                "anyOf": [{ "type": "string" }, { "type": "object" }]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "fn": { "const": "com.gs.log" }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "description": "args for `com.gs.log` are `level` and `data`.",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "level": {
+                        "type": "string",
+                        "enum": [
+                          "info",
+                          "error",
+                          "debug",
+                          "warn",
+                          "fatal",
+                          "silent",
+                          "trace"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "fn": { "const": "com.gs.http" }
+            }
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "description": "for com.gs.http, `params` and `args` are accepted parameters.",
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "params": {
+                        "type": "object"
+                      },
+                      "args": {
+                        "properties": {
+                          "datasource": {
+                            "type": "string"
+                          },
+                          "config": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string"
+                              },
+                              "method": {
+                                "type": "string",
+                                "enum": [
+                                  "get",
+                                  "put",
+                                  "post",
+                                  "delete",
+                                  "options"
+                                ]
+                              }
+                            },
+                            "required": ["url", "method"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "required": ["id", "tasks"]
+}

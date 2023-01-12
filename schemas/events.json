@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Godspeed Event Delaration",
+  "description": "A recipe for Godspeed events.",
+  "type": "object",
+  "patternProperties": {
+    "(^/)([a-zA-Z0-9:/-]+)(.)(kafka|http)(.)(get|put|post|delete|options){1}": {
+      "description": "eventKey",
+      "type": "object",
+      "examples": [{ "summary": "summary of the event" }],
+      "properties": {
+        "description": { "type": "string" },
+        "summary": { "type": "string" },
+        "fn": { "type": "string" },
+        "params": { "type": "object" },
+        "body": { "type": "object" },
+        "responses": { "type": "object" }
+      }
+    }
+  }
+}
