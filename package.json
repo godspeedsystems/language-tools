@@ -5,6 +5,7 @@
   "publisher": "zero8",
   "license": "MIT",
   "version": "1.2.0",
+  "icon": "icon.png",
   "engines": {
     "vscode": "^1.74.0"
   },
