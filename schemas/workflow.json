@@ -6,181 +6,213 @@
   "properties": {
     "summary": {
       "type": "string",
-      "description": "the title of the workflow, meta info about the workflow"
+      "title": "Title",
+      "description": "Title of the workflow, meta info about the workflow",
+      "default": "short summary of the workflow"
     },
     "description": {
       "type": "string",
-      "description": "Detail description of workflow"
+      "title": "Description",
+      "description": "Detail description of workflow",
+      "default": "detailed description of workflow"
     },
     "id": {
       "type": "string",
-      "description": "Unique ID for the workflow, It is recommanded for better logging visibility."
+      "title": "ID",
+      "description": "Unique ID for the workflow, It is recommanded for better logging visibility.",
+      "default": "workflow_unique_id"
     },
     "tasks": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/task"
-      },
-      "description": "The tasks (workflows or sub-workflows) to be run in series (sequence, or one by one). The tasks invoke other workflows written in YAML or JS/TS. \n Default value is `sequence`"
+      "$ref": "#/definitions/tasks"
+    },
+    "on_error": {
+      "$ref": "#/definitions/on_error"
+    },
+    "retry": {
+      "$ref": "#/definitions/retry"
     }
   },
   "definitions": {
-    "retry": {
+    "task": {
+      "id": {
+        "type": "string",
+        "title": "Task ID",
+        "description": "Unique task id"
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "title": "Tasks",
+      "description": "The tasks (workflows or sub-workflows) to be run in series (sequence, or one by one). The tasks invoke other workflows written in YAML or JS/TS. \n Default value is `sequence`",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "fn": {
+            "type": "string",
+            "oneOf": [
+              {
+                "const": "com.gs.http",
+                "title": "HTTP",
+                "description": "Call a third party api, or other microserive"
+              },
+              {
+                "const": "com.gs.return",
+                "title": "com.gs.return",
+                "description": "Return the args"
+              },
+              {
+                "const": "com.gs.log",
+                "title": "com.gs.log",
+                "description": "Log the args to console"
+              },
+              {
+                "const": "com.gs.transform",
+                "title": "Transform",
+                "description": "This function allows to transform data from one format to another using coffee/js scripting."
+              }
+            ]
+          },
+          "on_error": {
+            "$ref": "#/definitions/retry"
+          }
+        },
+        "required": ["id", "fn"],
+        "anyOf": [
+          { "$ref": "#/definitions/com.gs.http" },
+          { "$ref": "#/definitions/com.gs.return" },
+          { "$ref": "#/definitions/com.gs.log" },
+          { "$ref": "#/definitions/com.gs.transform" }
+        ],
+
+        "minItems": 1
+      }
+    },
+    "on_error": {
       "type": "object",
       "properties": {
-        "max_attempts": {
-          "type": "number"
+        "continue": {
+          "type": "boolean",
+          "default": true,
+          "title": "Continue",
+          "description": "Whether the next task should be executed, in case this wokflow/task fails."
         },
-        "type": {
-          "type": "string"
-        },
-        "interval": {
+        "response": {
           "type": "string"
         }
       }
     },
-    "task": {
+    "retry": {
       "type": "object",
+      "title": "Retry mechanism",
+      "description": "Retry logic helps to handle transient failures, internal server errors, and network errors with support for constant, exponential and random types.\n`Currently applied only for com.gs.http workflow.`",
       "properties": {
-        "allOf": {
-          "id": {
-            "type": "string",
-            "description": "ID of the task, in subsequent tasks, you can access the output of task through this unique ID.",
-            "examples": [
-              "Suppose ID of a task is `my_task`, then in upcoming task, you can access the output of this task as `outputs.my.task`"
-            ]
-          },
-          "fn": {
-            "type": "string",
-            "enum": [
-              "com.gs.return",
-              "com.gs.http",
-              "com.gs.kafka",
-              "com.gs.datastore",
-              "com.gs.elasticgraph",
-              "com.gs.transform",
-              "com.gs.series",
-              "com.gs.parallel",
-              "com.gs.switch",
-              "com.gs.each_sequential",
-              "com.gs.each_parallel",
-              "com.gs.log",
-              "com.gs.dynamic_fn",
-              "com.gs.aws",
-              "com.gs.redis"
-            ]
-          }
+        "max_attempts": {
+          "type": "number",
+          "default": 5
+        },
+        "type": {
+          "type": "string",
+          "enum": ["constant", "exponential", "random"],
+          "default": "constant"
+        },
+        "interval": {
+          "type": "string",
+          "title": "Interval",
+          "default": "PT15S"
+        },
+        "min_interval": {
+          "title": "Min interval",
+          "type": "string"
+        },
+        "max_interval": {
+          "title": "Max interval",
+          "type": "string"
         }
       },
-      "allOf": [
-        {
+      "required": ["type", "interval"]
+    },
+    "com.gs.http": {
+      "type": "object",
+      "required": ["args"],
+      "properties": {
+        "fn": {
+          "const": "com.gs.http"
+        },
+        "params": {
+          "type": ["object", "string"]
+        },
+        "args": {
+          "type": ["object", "string"],
+          "title": "args",
+          "required": ["datasource", "config"],
+          "default": { "datasource": {}, "config": {} },
           "properties": {
-            "retry": {
-              "$ref": "#/definitions/retry"
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "fn": { "const": "com.gs.return" }
-            }
-          },
-          "then": {
-            "properties": {
-              "args": {
-                "description": "args for `com.gs.return` can be a object or a script.",
-                "examples": ["inputs.<ID>.<somevalue>"],
-                "anyOf": [{ "type": "string" }, { "type": "object" }]
+            "datasource": {
+              "type": "string"
+            },
+            "config": {
+              "type": "object",
+              "required": ["url", "method"],
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "method": {
+                  "type": "string",
+                  "enum": ["get", "put", "post", "delete", "options"]
+                }
               }
             }
           }
         },
-        {
-          "if": {
-            "properties": {
-              "fn": { "const": "com.gs.log" }
-            }
-          },
-          "then": {
-            "properties": {
-              "args": {
-                "description": "args for `com.gs.log` are `level` and `data`.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "level": {
-                        "type": "string",
-                        "enum": [
-                          "info",
-                          "error",
-                          "debug",
-                          "warn",
-                          "fatal",
-                          "silent",
-                          "trace"
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+        "retry": {
+          "$ref": "#/definitions/retry"
+        }
+      }
+    },
+    "com.gs.return": {
+      "type": "object",
+      "properties": {
+        "fn": {
+          "const": "com.gs.return"
         },
-        {
-          "if": {
-            "properties": {
-              "fn": { "const": "com.gs.http" }
-            }
-          },
-          "then": {
-            "properties": {
-              "args": {
-                "description": "for com.gs.http, `params` and `args` are accepted parameters.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "params": {
-                        "type": "object"
-                      },
-                      "args": {
-                        "properties": {
-                          "datasource": {
-                            "type": "string"
-                          },
-                          "config": {
-                            "type": "object",
-                            "properties": {
-                              "url": {
-                                "type": "string"
-                              },
-                              "method": {
-                                "type": "string",
-                                "enum": [
-                                  "get",
-                                  "put",
-                                  "post",
-                                  "delete",
-                                  "options"
-                                ]
-                              }
-                            },
-                            "required": ["url", "method"]
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
+        "args": {
+          "type": ["object", "string"]
+        }
+      },
+      "required": ["args"]
+    },
+    "com.gs.log": {
+      "type": "object",
+      "properties": {
+        "fn": {
+          "const": "com.gs.log"
+        },
+        "args": {
+          "type": "object"
+        }
+      }
+    },
+    "com.gs.transform": {
+      "type": ["object", "string"],
+      "properties": {
+        "fn": {
+          "const": "com.gs.transform"
+        },
+        "args": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "number"
+            },
+            "data": {
+              "type": ["object", "string"]
             }
           }
         }
-      ]
+      }
     }
   },
-  "required": ["id", "tasks"]
+  "additionalProperties": false
 }

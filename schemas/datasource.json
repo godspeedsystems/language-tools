@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Godspeed Datasource Delaration",
+  "description": "A recipe for Godspeed datasource.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "$ref": "#/definitions/type"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "type": {
+      "type": "string",
+      "title": "Datasource Type",
+      "description": "As of now godspeed support `api`, `kafka`, `elasticgraph`, `aws` and `redis`",
+      "oneOf": [
+        {
+          "const": "api",
+          "description": "HTTP api"
+        },
+        {
+          "const": "kafka",
+          "description": "Kafka datasource"
+        },
+        {
+          "const": "redis",
+          "description": "Redis as Datasource"
+        },
+        {
+          "const": "aws",
+          "description": "AWS as datasource"
+        },
+        {
+          "const": "elasticgraph",
+          "description": "Ealasticgraph as datasource"
+        }
+      ]
+    }
+  }
+}
