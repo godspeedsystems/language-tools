@@ -4,7 +4,7 @@
   "description": "VSCode extension for development assistance with Godspeed micro-service framework.",
   "publisher": "zero8",
   "license": "MIT",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.74.0"
@@ -43,10 +43,6 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "yamlValidation": {
-      "fileMatch": "src/events/**/*.yaml",
-      "url": "./schemas/events.json"
-    },
     "snippets": [
       {
         "language": "yaml",
