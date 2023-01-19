@@ -48,6 +48,11 @@
       "type": "string",
       "oneOf": [
         {
+          "const": "com.gs.datastore",
+          "title": "com.gs.datastore",
+          "description": "This function will help you access Prisma datastore."
+        },
+        {
           "const": "com.gs.http",
           "title": "com.gs.http",
           "description": "Call a third party api, or other microservices"
@@ -297,6 +302,17 @@
           "then": {
             "$ref": "#/definitions/com-gs-redis"
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "fn": { "const": "com.gs.datastore" }
+            },
+            "required": ["fn"]
+          },
+          "then": {
+            "$ref": "#/definitions/com-gs-datastore"
+          }
         }
       ]
     },
@@ -529,6 +545,32 @@
             }
           },
           "required": ["config", "data"]
+        }
+      }
+    },
+    "com-gs-datastore": {
+      "type": "object",
+      "required": ["args"],
+      "properties": {
+        "args": {
+          "type": "object",
+          "properties": {
+            "datasource": {
+              "type": "string"
+            },
+            "data": {
+              "type": "object"
+            },
+            "config": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "default": ""
+                }
+              }
+            }
+          }
         }
       }
     }
