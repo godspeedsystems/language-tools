@@ -360,13 +360,10 @@
       },
       "required": ["type", "interval"]
     },
-    "com.gs.http": {
+    "com-gs-http": {
       "type": "object",
       "required": ["args"],
       "properties": {
-        "fn": {
-          "const": "com.gs.http"
-        },
         "params": {
           "type": ["object", "string"]
         },
@@ -550,10 +547,10 @@
     },
     "com-gs-datastore": {
       "type": "object",
-      "required": ["args"],
       "properties": {
         "args": {
           "type": "object",
+          "required": ["datasource", "config"],
           "properties": {
             "datasource": {
               "type": "string"
@@ -563,6 +560,7 @@
             },
             "config": {
               "type": "object",
+              "required": ["method"],
               "properties": {
                 "method": {
                   "type": "string",
@@ -572,7 +570,8 @@
             }
           }
         }
-      }
+      },
+      "required": ["args"]
     }
   }
 }
