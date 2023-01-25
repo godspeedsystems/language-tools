@@ -1,0 +1,27 @@
+{
+  "scopeName": "codeblock.injection",
+  "injectionSelector": "L:source.yaml",
+  "patterns": [
+    {
+      "include": "#codeblock"
+    }
+  ],
+  "repository": {
+    "codeblock": {
+      "begin": "<%|<%coffee|<%js",
+      "beginCaptures": {
+        "0": { "name": "keyword.control" }
+      },
+      "end": "%>",
+      "endCaptures": {
+        "0": { "name": "keyword.control" }
+      },
+      "contentName": "meta.embedded.block.js",
+      "patterns": [
+        {
+          "include": "source.js"
+        }
+      ]
+    }
+  }
+}
