@@ -139,7 +139,7 @@
           "$ref": "#/definitions/fn"
         },
         "on_error": {
-          "$ref": "#/definitions/retry"
+          "$ref": "#/definitions/on_error"
         },
         "args": true,
         "params": true,
