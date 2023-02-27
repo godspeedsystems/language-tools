@@ -12,9 +12,54 @@
         "description": { "type": "string" },
         "summary": { "type": "string" },
         "fn": { "type": "string" },
-        "params": { "type": "object" },
+        "params": { "type": "array" },
         "body": { "type": "object" },
         "responses": { "type": "object" }
+      }
+    }
+  },
+  "definitions": {
+    "params": {
+      "type": "array",
+      "title": "Params",
+      "description": "Define list of params from path, query, cookie or header",
+      "items": {
+        "$ref": "#/definitions/param"
+      },
+      "minItems": 1
+    },
+    "param": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "in": {
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "path",
+              "title": "Path params",
+              "examples": ["`/hello:name` `name` is a path param"]
+            },
+            {
+              "const": "query",
+              "title": "Query params",
+              "examples": ["`/hello?status=`, `status` is a query param"]
+            },
+            {
+              "const": "header",
+              "title": "Header params"
+            },
+            {
+              "const": "cookie",
+              "title": "Cookie params"
+            }
+          ]
+        },
+        "schema": {
+          "type": "object"
+        }
       }
     }
   }
