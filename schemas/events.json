@@ -12,7 +12,7 @@
         "description": { "type": "string" },
         "summary": { "type": "string" },
         "fn": { "type": "string" },
-        "params": { "type": "array" },
+        "params": { "$ref": "#/definitions/params" },
         "body": { "type": "object" },
         "responses": { "type": "object" }
       }
