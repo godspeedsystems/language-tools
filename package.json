@@ -1,6 +1,6 @@
 {
   "name": "godspeed",
-  "displayName": "Godspeed Extension Pack",
+  "displayName": "Godspeed Language Tools",
   "description": "VSCode extension for development assistance with Godspeed micro-service framework.",
   "publisher": "zero8",
   "license": "MIT",
@@ -12,14 +12,14 @@
   "author": {
     "name": "Ashutosh Tripathi"
   },
-  "homepage": "https://github.com/ashu17706/godspeed-vscode-extension-pack/main/README.md",
+  "homepage": "https://github.com/godspeedsystems/language-tools#readme",
   "bugs": {
-    "url": "https://github.com/ashu17706/godspeed-vscode-extension-pack/issues",
+    "url": "https://github.com/godspeedsystems/language-tools/issues",
     "email": "hello@zero8.dev"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ashu17706/godspeed-vscode-extension-pack.git"
+    "url": "https://github.com/godspeedsystems/language-tools.git"
   },
   "categories": [
     "Snippets",
