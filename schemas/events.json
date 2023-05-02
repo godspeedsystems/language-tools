@@ -4,7 +4,7 @@
   "description": "A recipe for Godspeed events.",
   "type": "object",
   "patternProperties": {
-    "(^/)([a-zA-Z0-9:/-]+)(.)(kafka|http)(.)(get|put|post|delete|options){1}": {
+    "(^/)([a-zA-Z0-9:/-]+)(.)(http)(.)(get|put|post|delete|options){1}$": {
       "description": "eventKey",
       "type": "object",
       "examples": [{ "summary": "summary of the event" }],
@@ -22,6 +22,41 @@
           "description": "Specifies a function which would be run if a validation error happens for the request"
         }
       }
+    },
+    "(^)([_a-zA-Z0-9]+)(.)(kafka)([0-9]*)(.)([_a-zA-Z0-9]+)$": {
+      "description": "eventKey",
+      "type": "object",
+      "examples": [{ "summary": "summary of a kafka event" }],
+      "properties": {
+        "id" : { "type": "string" },
+        "description": { "type": "string" },
+        "summary": { "type": "string" },
+        "fn": { "type": "string" },
+        "body": { "type": "object" },
+        "on_validation_error": {
+          "type" : "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "(^)([_a-zA-Z0-9]+)(.)(salesforce)([0-9]*)(.)([_a-zA-Z0-9]+)$": {
+      "description": "eventKey",
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "summary": { "type": "string" },
+        "id" : { 
+          "description": "This represents the salesforce topic generally",
+          "type": "string",
+          "pattern": "(^/)([a-zA-Z0-9]+)" 
+        },
+        "fn": { "type": "string" },
+        "body": { "type": "object" },
+        "on_validation_error": {
+          "type" : "string"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "definitions": {
