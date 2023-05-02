@@ -14,7 +14,13 @@
         "fn": { "type": "string" },
         "params": { "$ref": "#/definitions/params" },
         "body": { "type": "object" },
-        "responses": { "type": "object" }
+        "responses": { "type": "object" },
+        "authn": { "type": "boolean" },
+        "on_validation_error": {
+          "type" : "string",
+          "$comment": "This should later only allow valid identifiers denoting a function, currently fn property is also a string",
+          "description": "Specifies a function which would be run if a validation error happens for the request"
+        }
       }
     }
   },
