@@ -45,7 +45,7 @@ jobs:
       - name: Version Package
         run: |
           npm version $RELEASE_VERSION
-          git tag -a $RELEASE_VERSION -m "$RELEASE_VERSION" --no-verify
+          git tag -a $RELEASE_VERSION -m "$RELEASE_VERSION"
       - name: Package Extension
         run: npx vsce package $RELEASE_VERSION --no-yarn --no-git-tag-version --no-update-package-json -o "./godspeed-$RELEASE_VERSION.vsix"
       - name: Publish to Visual Studio Marketplace
