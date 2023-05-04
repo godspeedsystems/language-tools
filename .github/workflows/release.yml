@@ -53,8 +53,10 @@ jobs:
       - name: Push Tags
         run: |
           git log -1 --stat
+          git remote set-url origin https://${{ secrets.AT_GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git push origin main --tags
-      - run: |
+      - name: Export GIT_TAG
+        run: |
           export GIT_TAG=$(git describe --tags --abbrev=0)
           echo "GIT_TAG=$GIT_TAG" >> $GITHUB_ENV
       - name: GitHub Release
