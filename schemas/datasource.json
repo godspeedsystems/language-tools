@@ -36,6 +36,10 @@
           "description": "Ealasticgraph as datasource"
         }
       ]
+    },
+    "rohit": {
+      "type": "string",
+      "default": "Godspeed Employee"
     }
   }
 }
