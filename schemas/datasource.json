@@ -32,7 +32,7 @@
       "$ref": "#/definitions/url"
     },
     "common": {
-      "$ref": "#/definitions/commom"
+      "$ref": "#/definitions/common"
     },
     "services": {
       "$ref": "#/definitions/services"
@@ -51,19 +51,28 @@
     }
 
 
-
   },
   "additionalProperties": false,
   "definitions": {
     "type":{
       "type": "string",
       "oneOf": [
-        { "const": "api" },
-        { "const": "kafka" },
-        { "const": "elasticgraph" },
-        { "const": "aws" },
-        { "const": "redis"},
-        {"const": "const", "title": "External Database", "description": "type loadFn: for further assistance"}
+        { "const": "api",
+          "title": "API as Database",
+        "description": "Mention Base url and Header after this."},
+        { "const": "kafka",
+          "title": "Kafka as Datasource",
+          "description": "Mention Client ID in Kafka Datasource" },
+        { "const": "elasticgraph",
+          "title": "Elasticgraph as Datasource" ,
+        "description": "Mention schema_backend, deep and collect (Boolean value)."},
+        { "const": "aws",
+          "title": "AWS as Database", 
+          "description": "Mention common and services"},
+        { "const": "redis", 
+          "title": "Redis as Database", 
+          "description": "mention url "},
+        {"const": "sample", "title": "External Database", "description": "type loadFn:, executeFn, Client_url, client_id for further assistance"}
       ]
     },
     "base_url":{
@@ -110,7 +119,7 @@
       "title": "URL of Redis Database",
       "description": "Enter Your URL of Redis Database"
     },
-    "commom": {
+    "common": {
       "type": "object",
       "default": "credentials",
       "properties": {
@@ -173,8 +182,5 @@
       "description": "This is Client_id for External Database",
       "default": "sample123"
     }
-
-
-
   }
 }

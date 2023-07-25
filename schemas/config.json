@@ -21,9 +21,6 @@
       },
       "log_level": {
         "$ref": "#/definitions/log_level"
-      },
-      "newtrial": {
-        "$ref": "#/definitions/newtrial"
       }
     },
     "additionalProperties": false,
@@ -80,8 +77,13 @@
                 "default": "json"
               }
             }
+          },
+          "client_id": {
+            "type": "string",
+            "default": "KAFKA CLIENT ID"
           }
-        }
+        },
+        "required": ["brokers", "client_id"]
       },
       "client_id":{
         "type":"string",
@@ -100,18 +102,6 @@
             "default": "coffee"
           }
         }
-      },
-      "newtrial":{
-        "type": "object",
-        "properties": {
-        "status": {
-          "oneOf": [
-            { "const": "active" },
-            { "const": "inactive" }
-          ]
-        }
-          },
-        "required": ["status"]
       }
     }
   } 

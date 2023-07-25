@@ -100,14 +100,7 @@
           }
         },
         "examples": {
-          "type": "object",
-          "properties": {
-            "sample_id": {
-              "type": "object"
-              }
-            
-          },
-          "required": ["sample_id"]
+          "type": "object"
         }
       },
       "required": ["name", "in","description", "schema","type", "examples", "sample_id"]
