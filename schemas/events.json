@@ -15,7 +15,9 @@
         "params": { "$ref": "#/definitions/params"},
         "body": {"$ref": "#/definitions/body"},
         "authn": {"$ref": "#/definitions/authn"},
-        "on_validation_error": {"$ref": "#/definitions/on_validation_error"}
+        "on_validation_error": {"$ref": "#/definitions/on_validation_error"},
+        "response": {"$ref": "#/definitions/response"},
+        "trial": {"$ref": "#/definitions/trial"}
       }
     }
   },
@@ -35,26 +37,6 @@
         "default": "Quick summary of the Event",
         "maxLength": 50,
         "minLength": 2
-    },
-    "function": {
-      "type": "string",
-      "oneOf": [
-        {
-          "const": "rohit",
-          "title": "rohit",
-          "description": "rohit"
-        },
-        {
-          "const": "rohan",
-          "title": "rohan",
-          "description": "rohan"
-        },
-        {
-          "const": "rakesh",
-          "title": "rakesh",
-          "description": "rakesh"
-        }
-      ]
     },
     "params": {
       "type": "array",
@@ -99,15 +81,10 @@
           }
         },
         "examples": {
-          "type": "object",
-          "properties": {
-            "sample_id": {
-              "type": "object"
-              }
-            
-          }
+          "type": "object"
         }
-      }
+      },
+      "required": ["name", "in","description", "schema","type", "examples", "sample_id"]
     },
     "in": {
       "type": "string",
@@ -154,13 +131,17 @@
                       "type": "string",
                       "default": "string"
                     }
-                  }
+                  },
+                  "required": ["type"]
                 }
-              }
+              },
+              "required": ["schema"]
             }
-          }
+          },
+          "required": ["application/json"]
         }
-      } 
+      },
+      "required": ["description", "content"]
     },
     "authn": {
       "type": "boolean",
@@ -171,6 +152,44 @@
     "on_validation_error": {
       "type": "string",
       "default": "com.jfs.handle_validation_error"
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "200": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "default": "OK"
+            },
+            "content": {
+              "type": "object",
+              "properties": {
+                "application/json": {
+                  "type": "object",
+                  "properties": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "default": "object"
+                        }
+                      },
+                      "required": ["type"]
+                    }
+                  },
+                  "required": ["schema"]
+                }
+              },
+              "required": ["application/json"]
+            }
+          },
+          "required": ["description", "content"]
+        }
+      },
+      "required": ["200"]
     }
   }
 }

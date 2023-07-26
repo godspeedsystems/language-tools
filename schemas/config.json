@@ -22,9 +22,25 @@
       "log_level": {
         "$ref": "#/definitions/log_level"
       },
-      "newtrial": {
-        "$ref": "#/definitions/newtrial"
+      "lang": {
+        "$ref": "#/definitions/lang"
+      },
+      "redact": {
+        "$ref": "#/definitions/redact"
+      },
+      "server_url": {
+        "$ref": "#/definitions/server_url"
+      },
+      "httpbin": {
+        "$ref": "#/definitions/httpbin"
+      },
+      "request_body_limit": {
+        "$ref": "#/definitions/request_body_limit"
+      },
+      "file_size_limit": {
+        "$ref": "#/definitions/file_size_limit"
       }
+
     },
     "additionalProperties": false,
     "definitions": {
@@ -80,8 +96,13 @@
                 "default": "json"
               }
             }
+          },
+          "client_id": {
+            "type": "string",
+            "default": "KAFKA CLIENT ID"
           }
-        }
+        },
+        "required": ["brokers", "client_id"]
       },
       "client_id":{
         "type":"string",
@@ -92,26 +113,45 @@
         "default": "PRISMA_SECRET"
       },
       "log_level": {
-        "type": "object",
-        "default": "rohitkoktare",
-        "properties": {
-          "lang": {
-            "type": "string",
-            "default": "coffee"
+        "type": "string",
+        "oneOf": [
+          {
+            "const": "debug",
+            "title": "Config for static variablers",
+        "description": "This ishdiohgfiodhsagidj flhdsfjkdhsfj fdsfhdjksh",
+        "examples": ["debug\nlang: coffee\nredact: []\nserver_url: https://api.axample.com:8443/v1/api\nhttpbin:\n  base_url: https://httpbin.org\nrequest_body_limit: 50mb\nfile_size_limit: 50mb"]
           }
-        }
+        ]
       },
-      "newtrial":{
+      "lang": {
+        "type": "string",
+        "default": "coffee"
+      },
+      "redact": {
+        "type": "string",
+        "default": []
+      },
+      "server_url": {
+        "type": "string",
+        "default": "https://api.axample.com:8443/v1/api"
+      },
+      "httpbin": {
         "type": "object",
         "properties": {
-        "status": {
-          "oneOf": [
-            { "const": "active" },
-            { "const": "inactive" }
-          ]
-        }
-          },
-        "required": ["status"]
+          "base_url": {
+            "type": "string",
+            "default": "https://httpbin.org"
+          }
+        },
+        "required": ["base_url"]
+      },
+      "request_body_limit": {
+        "type": "string",
+        "default": "50mb"
+      },
+      "file_size_limit": {
+        "type": "string",
+        "default": "50mb"
       }
     }
   } 

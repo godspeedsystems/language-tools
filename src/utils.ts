@@ -53,7 +53,6 @@ const getDefaultSettings = (context: vscode.ExtensionContext) => {
 
 export const installYAMLConfigurations = (context: vscode.ExtensionContext) => {
   const defaultLanguageSettings = getDefaultSettings(context);
-  console.log(defaultLanguageSettings);
   Object.keys(defaultLanguageSettings).forEach(async (key) => {
     const value =
       defaultLanguageSettings[key as keyof typeof defaultLanguageSettings];
