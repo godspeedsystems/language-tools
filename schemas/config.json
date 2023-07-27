@@ -21,6 +21,7 @@
       },
       "log_level": {
         "$ref": "#/definitions/log_level"
+<<<<<<< HEAD
       },
       "lang": {
         "$ref": "#/definitions/lang"
@@ -39,6 +40,8 @@
       },
       "file_size_limit": {
         "$ref": "#/definitions/file_size_limit"
+=======
+>>>>>>> origin/rohitbranch
       }
 
     },
@@ -121,6 +124,7 @@
         "description": "This ishdiohgfiodhsagidj flhdsfjkdhsfj fdsfhdjksh",
         "examples": ["debug\nlang: coffee\nredact: []\nserver_url: https://api.axample.com:8443/v1/api\nhttpbin:\n  base_url: https://httpbin.org\nrequest_body_limit: 50mb\nfile_size_limit: 50mb"]
           }
+<<<<<<< HEAD
         ]
       },
       "lang": {
@@ -152,6 +156,9 @@
       "file_size_limit": {
         "type": "string",
         "default": "50mb"
+=======
+        }
+>>>>>>> origin/rohitbranch
       }
     }
   } 
