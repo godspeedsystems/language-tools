@@ -16,12 +16,7 @@
         "body": {"$ref": "#/definitions/body"},
         "authn": {"$ref": "#/definitions/authn"},
         "on_validation_error": {"$ref": "#/definitions/on_validation_error"},
-<<<<<<< HEAD
-        "response": {"$ref": "#/definitions/response"},
-        "trial": {"$ref": "#/definitions/trial"}
-=======
         "response": {"$ref": "#/definitions/response"}
->>>>>>> origin/rohitbranch
       }
     }
   },
