@@ -59,7 +59,6 @@
       "oneOf": [
         { "const": "api",
           "title": "API as Database",
-<<<<<<< HEAD
           "description": "Mention Base url and Header after this.\ntype: api\nschema: \nbase_url: <% congig.httpbin.base_url %> \nbefore_method_hook: com.jfs.audit_log_workflow",
           "examples": [
                         "api \nbase_url: <% config.httpbin.base_url %> \nheaders: \n  name: godspeed \n  title: <% inputs.headers['title'] %>"
@@ -96,22 +95,6 @@
           ]
         
         }
-=======
-        "description": "Mention Base url and Header after this."},
-        { "const": "kafka",
-          "title": "Kafka as Datasource",
-          "description": "Mention Client ID in Kafka Datasource" },
-        { "const": "elasticgraph",
-          "title": "Elasticgraph as Datasource" ,
-        "description": "Mention schema_backend, deep and collect (Boolean value)."},
-        { "const": "aws",
-          "title": "AWS as Database", 
-          "description": "Mention common and services"},
-        { "const": "redis", 
-          "title": "Redis as Database", 
-          "description": "mention url "},
-        {"const": "sample", "title": "External Database", "description": "type loadFn:, executeFn, Client_url, client_id for further assistance"}
->>>>>>> origin/rohitbranch
       ]
     },
     "base_url":{

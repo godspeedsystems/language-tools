@@ -21,7 +21,6 @@
       },
       "log_level": {
         "$ref": "#/definitions/log_level"
-<<<<<<< HEAD
       },
       "lang": {
         "$ref": "#/definitions/lang"
@@ -40,8 +39,6 @@
       },
       "file_size_limit": {
         "$ref": "#/definitions/file_size_limit"
-=======
->>>>>>> origin/rohitbranch
       }
 
     },
