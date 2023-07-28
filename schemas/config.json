@@ -152,6 +152,10 @@
       "file_size_limit": {
         "type": "string",
         "default": "50mb"
+      },
+        "file_size_limits": {
+        "type": "string",
+        "default": "50mb"
       }
     }
   } 
