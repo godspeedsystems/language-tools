@@ -59,7 +59,40 @@
       "oneOf": [
         { "const": "api",
           "title": "API as Database",
-        "description": "Mention Base url and Header after this."},
+          "description": "Mention Base url and Header after this.\ntype: api\nschema: \nbase_url: <% congig.httpbin.base_url %> \nbefore_method_hook: com.jfs.audit_log_workflow",
+          "examples": [
+                        "api \nbase_url: <% config.httpbin.base_url %> \nheaders: \n  name: godspeed \n  title: <% inputs.headers['title'] %>"
+        ]},
+        { "const": "kafka",
+          "title": "Kafka as Datasource",
+          "description": "Mention Client ID in Kafka Datasource example- \ntype: kafka \nclient_id: my_service \nbrokers: [\"kafka: 9092\"]", 
+          "examples": [
+            "kafka \nclient_id: my_service \nbrokers: [\"kafka: 9092\"]"
+          ]},
+        { "const": "elasticgraph",
+          "title": "Elasticgraph as Datasource" ,
+        "description": "Mention schema_backend, deep and collect (Boolean value). \ntype: elasticgraph \nschema_backend: ./eg_config/eg1/ \ndeep: false \ncollect: true",
+        "examples": [
+          "elasticgraph \nschema_backend: ./eg_config/eg1/ \ndeep: false \ncollect: true"
+        ]},
+        { "const": "aws",
+          "title": "AWS as Database", 
+          "description": "Mention common and services\n type: aws \ncommon:\n   credentials:\n        accessKeyId: 'AKIA4KQJJFGY2KPNNOEMmnbv'\n        secretAccessKey: '+pf5xyyPSUfBNn0V9ZIH0oPVzARBvxoehR'\n    region: \"ap-south-1 \" \nservices: \n    s3: \n    config: {}" ,
+          "examples": [
+            "aws \ncommon:\n    credentials:\n        accessKeyId: 'AKIA4KQJJFGY2KPNNOEMmnbv'\n        secretAccessKey: '+pf5xyyPSUfBNn0V9ZIH0oPVzARBvxoehR'\n    region: \"ap-south-1 \" \nservices: \n    s3: \n    config: {}"
+          ]  
+        },
+        { "const": "redis", 
+          "title": "Redis as Database", 
+          "description": "type: redis \nurl: redis[s]://[[username][:password]@][host][:port][/db-number]" ,
+          "examples": [
+            "redis \nurl: redis[s]://[[username][:password]@][host][:port][/db-number]"
+          ]  
+        },
+        {"const": "extensible", "title": "External Database", "description": "type: extensible \nloadFn: com.sample.loader\nexecuteFn: com.sample.execute\nclient_url: https://sample.com\nclient_id: sample123",
+          "examples": [
+            "extensible \nloadFn: com.sample.loader\nexecuteFn: com.sample.execute\nclient_url: https://sample.com\nclient_id: sample123"
+          ]},
         { "const": "kafka",
           "title": "Kafka as Datasource",
           "description": "Mention Client ID in Kafka Datasource" },
