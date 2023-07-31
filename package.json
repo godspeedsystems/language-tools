@@ -17,6 +17,9 @@
     "url": "https://github.com/godspeedsystems/language-tools/issues",
     "email": "hello@zero8.dev"
   },
+  "onLoadEvent": {
+    "file": ".godspeed"
+  },  
   "repository": {
     "type": "git",
     "url": "https://github.com/godspeedsystems/language-tools.git"

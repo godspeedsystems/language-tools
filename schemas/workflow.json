@@ -22,6 +22,9 @@
     },
     "retry": {
       "$ref": "#/definitions/retry"
+    },
+    "additionalProperties": {
+      "$ref": "#/definitions/additionalProperties"
     }
   },
   "required": ["id", "tasks"],
@@ -50,6 +53,10 @@
       "default": "short summary of the workflow",
       "maxLength": 20,
       "minLength": 2
+    },
+    "additionalProperties": {
+      "type": "boolean",
+      "default": false
     },
     "fn": {
       "type": "string",

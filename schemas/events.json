@@ -103,7 +103,7 @@
           "type": "object"
         }
       },
-      "required": ["name", "in","description", "schema","type", "examples", "sample_id"]
+      "required": ["name", "in","description", "schema","type"]
     },
     "in": {
       "type": "string",
