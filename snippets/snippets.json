@@ -2,10 +2,12 @@
   "create godspeed event": {
     "prefix": ["godspeed event"],
     "body": [
-      "/${1:event-endpoint}.${2|http,kafka|}.${3|get,put,post,delete,options|}:",
+      "/${1:event-endpoint}.${2|http,kafka,salesforce,cron|}.${3|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}:",
+      "\tauthn: false",
       "\tsummary: ${4:'summary of the event'}",
       "\tdescription: ${5:'description of the event'}",
       "\tfn: ${6:'full path of the function, seprated with dots, remove .yaml, like: com.biz.helloworld'}",
+      "\ton_validation_error: com.jfs.handle_validation_error",
       "\tparams:${7}",
       "\tbody:${8}",
       "\tresponses:${9}",
@@ -27,7 +29,22 @@
       "tasks:",
       "\t- id: ${4:'unique id of the task'}",
       "\t\tfn: ${5|com.gs.return,com.gs.http,com.gs.kafka,com.gs.datastore,com.gs.elasticgraph,com.gs.transform,com.gs.series,com.gs.parallel,com.gs.switch,com.gs.each_sequential,com.gs.each_parallel,com.gs.log,com.gs.dynamic_fn,com.gs.aws,com.gs.redis|}",
+      "\t\ton_error:",
+      "\t\t\tcontinue: false",
       "\n"
+    ]
+  },
+  "log_level": {
+    "prefix": ["log_level config"],
+    "body": [
+      "log_level: debug",
+      "lang: coffee",
+      "redact: []",
+      "server_url: https://api.example.com:8443/v1/api",
+      "httpbin:",
+      "\t\tbase_url: https://httpbin.org",
+      "request_body_limit: 50mb",
+      "file_size_limit : 50mb"
     ]
   }
 }

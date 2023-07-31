@@ -6,36 +6,214 @@
   "properties": {
     "type": {
       "$ref": "#/definitions/type"
+    },
+    "base_url": {
+      "$ref": "#/definitions/base_url"
+    },
+    "headers": {
+      "$ref": "#/definitions/headers"
+    },
+    "client_id": {
+      "$ref": "#/definitions/client_id"
+    },
+    "brokers": {
+      "$ref": "#/definitions/brokers"
+    },
+    "schema_backend": {
+      "$ref": "#/definitions/schema_backend"
+    },
+    "deep": {
+      "$ref": "#/definitions/deep"
+    },
+    "collect": {
+      "$ref": "#/definitions/collect"
+    },
+    "url": {
+      "$ref": "#/definitions/url"
+    },
+    "common": {
+      "$ref": "#/definitions/common"
+    },
+    "services": {
+      "$ref": "#/definitions/services"
+    },
+    "loadFn": {
+      "$ref": "#/definitions/loadFn"
+    },
+    "Client_url": {
+      "$ref": "#/definitions/Client_url"
+    },
+    "Client_id": {
+      "$ref": "#/definitions/Client_id"
+    },
+    "executeFn": {
+      "$ref": "#/definitions/executeFn"
     }
+
+
   },
   "additionalProperties": false,
   "definitions": {
-    "type": {
+    "type":{
       "type": "string",
-      "title": "Datasource Type",
-      "description": "As of now godspeed support `api`, `kafka`, `elasticgraph`, `aws` and `redis`",
       "oneOf": [
-        {
-          "const": "api",
-          "description": "HTTP api"
+        { "const": "api",
+          "title": "API as Database",
+          "description": "Mention Base url and Header after this.\ntype: api\nschema: \nbase_url: <% congig.httpbin.base_url %> \nbefore_method_hook: com.jfs.audit_log_workflow",
+          "examples": [
+                        "api \nbase_url: <% config.httpbin.base_url %> \nheaders: \n  name: godspeed \n  title: <% inputs.headers['title'] %>"
+        ]},
+        { "const": "kafka",
+          "title": "Kafka as Datasource",
+          "description": "Mention Client ID in Kafka Datasource example- \ntype: kafka \nclient_id: my_service \nbrokers: [\"kafka: 9092\"]", 
+          "examples": [
+            "kafka \nclient_id: my_service \nbrokers: [\"kafka: 9092\"]"
+          ]},
+        { "const": "elasticgraph",
+          "title": "Elasticgraph as Datasource" ,
+        "description": "Mention schema_backend, deep and collect (Boolean value). \ntype: elasticgraph \nschema_backend: ./eg_config/eg1/ \ndeep: false \ncollect: true",
+        "examples": [
+          "elasticgraph \nschema_backend: ./eg_config/eg1/ \ndeep: false \ncollect: true"
+        ]},
+        { "const": "aws",
+          "title": "AWS as Database", 
+          "description": "Mention common and services\n type: aws \ncommon:\n   credentials:\n        accessKeyId: 'AKIA4KQJJFGY2KPNNOEMmnbv'\n        secretAccessKey: '+pf5xyyPSUfBNn0V9ZIH0oPVzARBvxoehR'\n    region: \"ap-south-1 \" \nservices: \n    s3: \n    config: {}" ,
+          "examples": [
+            "aws \ncommon:\n    credentials:\n        accessKeyId: 'AKIA4KQJJFGY2KPNNOEMmnbv'\n        secretAccessKey: '+pf5xyyPSUfBNn0V9ZIH0oPVzARBvxoehR'\n    region: \"ap-south-1 \" \nservices: \n    s3: \n    config: {}"
+          ]  
         },
-        {
-          "const": "kafka",
-          "description": "Kafka datasource"
+        { "const": "redis", 
+          "title": "Redis as Database", 
+          "description": "type: redis \nurl: redis[s]://[[username][:password]@][host][:port][/db-number]" ,
+          "examples": [
+            "redis \nurl: redis[s]://[[username][:password]@][host][:port][/db-number]"
+          ]  
         },
-        {
-          "const": "redis",
-          "description": "Redis as Datasource"
-        },
-        {
-          "const": "aws",
-          "description": "AWS as datasource"
-        },
-        {
-          "const": "elasticgraph",
-          "description": "Ealasticgraph as datasource"
-        }
+        {"const": "extensible", "title": "External Database", "description": "type: extensible \nloadFn: com.sample.loader\nexecuteFn: com.sample.execute\nclient_url: https://sample.com\nclient_id: sample123",
+          "examples": [
+            "extensible \nloadFn: com.sample.loader\nexecuteFn: com.sample.execute\nclient_url: https://sample.com\nclient_id: sample123"
+          ]},
+        { "const": "kafka",
+          "title": "Kafka as Datasource",
+          "description": "Mention Client ID in Kafka Datasource" },
+        { "const": "elasticgraph",
+          "title": "Elasticgraph as Datasource" ,
+        "description": "Mention schema_backend, deep and collect (Boolean value)."},
+        { "const": "aws",
+          "title": "AWS as Database", 
+          "description": "Mention common and services"},
+        { "const": "redis", 
+          "title": "Redis as Database", 
+          "description": "mention url "},
+        {"const": "sample", "title": "External Database", "description": "type loadFn:, executeFn, Client_url, client_id for further assistance"}
       ]
+    },
+    "base_url":{
+      "type": "string",
+      "description": "Enter the URL Schema of the Base url",
+      "default": "<% config.httpbin.base_url %>"
+    },
+    "headers": {
+        "type": "object",
+        "description": "Enter your Header Details Here, Use For API datasource",
+        "title": "Header",
+        "properties": {
+          "name": { "type": "string", "default": "godspeed" },
+          "title": { "type": "string" , "default": "<% inputs.headers['title'] %>"}
+        }
+    },
+    "client_id": {
+      "type": "string",
+      "title": "Client ID",
+      "default": "my_service",
+      "description": "Enter your Client ID Here, Used for Kafka Datasource"
+    },
+    "brokers": {
+      "type": "string",
+      "title": "Brokers",
+      "description": "Enter Broker Here Use For Kafka Datasource",
+      "default": "[\u0022kafka:9092\u0022]"
+    },
+    "schema_backend": {
+      "type": "string",
+      "default": "./eg_config/eg1/"
+    },
+    "deep": {
+      "type": "boolean",
+      "default": false
+    },
+    "collect": {
+      "type": "boolean",
+      "default": false
+    },
+    "url": {
+      "type": "string",
+      "default": "redis[s]://[[username][:password]@][host][:port][/db-number]",
+      "title": "URL of Redis Database",
+      "description": "Enter Your URL of Redis Database"
+    },
+    "common": {
+      "type": "object",
+      "default": "credentials",
+      "properties": {
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "accessKeyId": {
+              "type": "string",
+              "default": "AKIA4KQJJFGY2KPNNOEMmnbv"
+            },
+            "secretAccessKey": {
+              "type": "string",
+              "default": "+pf5xyyPSUfBNn0V9ZIH0oPVzARBvxoehR+mpzigcdfg"
+            }
+          }
+        },
+        "region": {
+          "type": "string",
+          "default": "ap-south-1"
+        }
+      },
+      "required": ["credentials"]
+    },
+    "services": {
+      "type": "object",
+      "properties": {
+        "S3": {
+          "type": "object",
+          "properties": {
+            "config": {
+              "type": "string",
+              "default": "{}"
+            }
+          }
+        }
+      },
+      "required": ["S3", "config"]
+    },
+    "loadFn": {
+      "type": "string",
+      "title": "loadFn For external Database",
+      "description": "This is LoadFn for External Database Type executeFn: for further assistance",
+      "default": "com.sample.loader"
+    },
+    "executeFn": {
+      "type": "string",
+      "title": "executeFn For external Database",
+      "description": "This is executeFn for External Database Type Client_url: for further assistance",
+      "default": "com.sample.execute"
+    },
+    "Client_url": {
+      "type": "string",
+      "title": "Client_url For external Database",
+      "description": "This is Client_url for External Database Type Client_id: for further assistance",
+      "default": "https://sample.com"
+    },
+    "Client_id": {
+      "type": "string",
+      "title": "Client_id For external Database",
+      "description": "This is Client_id for External Database",
+      "default": "sample123"
     }
   }
 }

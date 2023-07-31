@@ -1,0 +1,158 @@
+
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Godspeed Config Delaration",
+    "description": "A recipe for Godspeed Config.",
+    "type": "object",
+    "properties": {
+      "my_datasource": {
+        "$ref": "#/definitions/my_datasource"
+      },
+      "jwt": {
+        "$ref": "#/definitions/jwt"
+      },
+      "kafka": {
+        "$ref": "#/definitions/kafka"
+      },
+      "client_id":{
+        "$ref": "#/definitions/client_id"
+      },
+      "prisma_secret": {
+        "$ref": "#/definitions/prisma_secret"
+      },
+      "log_level": {
+        "$ref": "#/definitions/log_level"
+      },
+      "lang": {
+        "$ref": "#/definitions/lang"
+      },
+      "redact": {
+        "$ref": "#/definitions/redact"
+      },
+      "server_url": {
+        "$ref": "#/definitions/server_url"
+      },
+      "httpbin": {
+        "$ref": "#/definitions/httpbin"
+      },
+      "request_body_limit": {
+        "$ref": "#/definitions/request_body_limit"
+      },
+      "file_size_limit": {
+        "$ref": "#/definitions/file_size_limit"
+      }
+
+    },
+    "additionalProperties": false,
+    "definitions": {
+      "my_datasource": {
+        "type": "object",
+        "title": "Datasource Type",
+        "description": "As of now godspeed support `api`, `kafka`, `elasticgraph`, `aws` and `redis`",
+        "properties": {
+          "base_url": {
+            "type": "string",
+            "default": "MY_DATASOURCE_BASE_URL"
+          },
+          "api_key": {
+            "type":"string",
+            "default": "MY_DATASOURCE_API_KEY"
+          },
+          "api_token": {
+            "type": "string",
+            "default": "MY_DATASOURCE_API_TOKEN"
+          }
+        }
+      },
+      "jwt": {
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "type":"string",
+            "default": "JWT_ISS"
+          },
+          "audience": {
+            "type": "string",
+            "default": "JWT_AUD"
+          },
+          "secretOrkey":{
+            "type": "string",
+            "default": "JWT_SECRET"
+          }
+        }
+      },
+      "kafka":{
+        "type": "object",
+        "default": "brokers",
+        "properties": {
+          "brokers": {
+            "type": "object",
+            "properties": {
+              "__name": {
+                "type":"string",
+                "default": "KAFKA_BROKERS"
+              },
+              "__format": {
+                "type":"string",
+                "default": "json"
+              }
+            }
+          },
+          "client_id": {
+            "type": "string",
+            "default": "KAFKA CLIENT ID"
+          }
+        },
+        "required": ["brokers", "client_id"]
+      },
+      "client_id":{
+        "type":"string",
+        "default": "KAFKA_CLIENT_ID"
+      },
+      "prisma_secret": {
+        "type": "string",
+        "default": "PRISMA_SECRET"
+      },
+      "log_level": {
+        "type": "string",
+        "oneOf": [
+          {
+            "const": "debug",
+            "title": "Config for static variablers",
+        "description": "This ishdiohgfiodhsagidj flhdsfjkdhsfj fdsfhdjksh",
+        "examples": ["debug\nlang: coffee\nredact: []\nserver_url: https://api.axample.com:8443/v1/api\nhttpbin:\n  base_url: https://httpbin.org\nrequest_body_limit: 50mb\nfile_size_limit: 50mb"]
+          }
+        ]
+      },
+      "lang": {
+        "type": "string",
+        "default": "coffee"
+      },
+      "redact": {
+        "type": "string",
+        "default": []
+      },
+      "server_url": {
+        "type": "string",
+        "default": "https://api.axample.com:8443/v1/api"
+      },
+      "httpbin": {
+        "type": "object",
+        "properties": {
+          "base_url": {
+            "type": "string",
+            "default": "https://httpbin.org"
+          }
+        },
+        "required": ["base_url"]
+      },
+      "request_body_limit": {
+        "type": "string",
+        "default": "50mb"
+      },
+      "file_size_limit": {
+        "type": "string",
+        "default": "50mb"
+      }
+    }
+  } 

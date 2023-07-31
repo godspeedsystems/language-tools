@@ -30,19 +30,26 @@
       "type": "string",
       "title": "ID",
       "description": "Unique ID for the workflow, It is recommanded for better logging visibility.",
-      "default": "unique_id"
+      "default": "unique_id",
+      "maxLength": 10,
+      "minLength": 1,
+      "pattern": "^[^\\s]+$"
     },
     "description": {
       "type": "string",
       "title": "Description",
       "description": "Detail description of workflow",
-      "default": "detailed description of workflow"
+      "default": "detailed description of workflow",
+      "maxLength": 20,
+      "minLength": 2
     },
     "summary": {
       "type": "string",
       "title": "Title",
       "description": "Title of the workflow, meta info about the workflow",
-      "default": "short summary of the workflow"
+      "default": "short summary of the workflow",
+      "maxLength": 20,
+      "minLength": 2
     },
     "fn": {
       "type": "string",

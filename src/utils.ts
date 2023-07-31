@@ -21,6 +21,8 @@ const getDefaultSettings = (context: vscode.ExtensionContext) => {
         schemaFile: "datasource.json",
         globPattern: "src/datasources/**/*.yaml",
       },
+      {schemaFile: "config.json", 
+      globPattern: "config/**/*.yaml"}
     ];
 
     return {
@@ -40,6 +42,10 @@ const getDefaultSettings = (context: vscode.ExtensionContext) => {
           "src/events/**/*.yaml",
         "https://raw.githubusercontent.com/ashu17706/godspeed-vscode-extension-pack/main/schemas/workflow.json":
           "src/functions/**/*.yaml",
+          "https://raw.githubusercontent.com/ashu17706/godspeed-vscode-extension-pack/main/schemas/datasource.json":
+          "src/datasources/**/*.yaml",
+          "https://raw.githubusercontent.com/ashu17706/godspeed-vscode-extension-pack/main/schemas/config.json":
+          "config/**/*.yaml"
       },
     };
   }
@@ -47,7 +53,6 @@ const getDefaultSettings = (context: vscode.ExtensionContext) => {
 
 export const installYAMLConfigurations = (context: vscode.ExtensionContext) => {
   const defaultLanguageSettings = getDefaultSettings(context);
-  console.log(defaultLanguageSettings);
   Object.keys(defaultLanguageSettings).forEach(async (key) => {
     const value =
       defaultLanguageSettings[key as keyof typeof defaultLanguageSettings];
