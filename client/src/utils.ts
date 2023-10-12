@@ -40,6 +40,8 @@ const getDefaultSettings = (context: vscode.ExtensionContext) => {
           "src/events/**/*.yaml",
         "https://raw.githubusercontent.com/ashu17706/godspeed-vscode-extension-pack/main/schemas/workflow.json":
           "src/functions/**/*.yaml",
+          "https://raw.githubusercontent.com/ashu17706/godspeed-vscode-extension-pack/main/schemas/datasource.json":
+          "src/datasources/**/*.yaml",
       },
     };
   }

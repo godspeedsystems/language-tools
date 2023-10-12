@@ -24,8 +24,12 @@
       "$ref": "#/definitions/retry"
     }
   },
-  "required": ["id", "tasks"],
+  "required": [ "tasks"],
   "definitions": {
+    "args": {
+      "type": "string",
+      "default": "<% %>"
+    },
     "id": {
       "type": "string",
       "title": "ID",
@@ -139,9 +143,29 @@
           "$ref": "#/definitions/fn"
         },
         "on_error": {
-          "$ref": "#/definitions/retry"
+          "$ref": "#/definitions/on_error"
         },
-        "args": true,
+        "description":{
+          "$ref": "#/definitions/description"
+        },
+        "args": {
+          "type": "string",
+          "default": "<% %>"
+        },
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/id"
+            },
+            "fn": {
+              "$ref": "#/definitions/fn"
+            },
+            "args": {
+              "$ref": "#/definitions/args"
+            }
+          }
+        },
         "params": true,
         "retry": true,
         "tasks": true,

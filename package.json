@@ -17,6 +17,9 @@
     "url": "https://github.com/ashu17706/godspeed-vscode-extension-pack/issues",
     "email": "hello@zero8.dev"
   },
+  "onLoadEvent": {
+    "file": ".godspeed"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ashu17706/godspeed-vscode-extension-pack.git"
