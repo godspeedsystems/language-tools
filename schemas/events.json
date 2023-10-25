@@ -12,9 +12,64 @@
         "description": { "type": "string" },
         "summary": { "type": "string" },
         "fn": { "type": "string" },
+<<<<<<< HEAD
         "params": { "type": "array" },
+=======
+        "params": { "$ref": "#/definitions/params" },
+>>>>>>> main
         "body": { "type": "object" },
-        "responses": { "type": "object" }
+        "responses": { "type": "object" },
+        "authn": { "type": "boolean" },
+        "on_validation_error": {
+          "type" : "string",
+          "$comment": "This should later only allow valid identifiers denoting a function, currently fn property is also a string",
+          "description": "Specifies a function which would be run if a validation error happens for the request"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "params": {
+      "type": "array",
+      "title": "Params",
+      "description": "Define list of params from path, query, cookie or header",
+      "items": {
+        "$ref": "#/definitions/param"
+      },
+      "minItems": 1
+    },
+    "param": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "in": {
+          "type": "string",
+          "oneOf": [
+            {
+              "const": "path",
+              "title": "Path params",
+              "examples": ["`/hello:name` `name` is a path param"]
+            },
+            {
+              "const": "query",
+              "title": "Query params",
+              "examples": ["`/hello?status=`, `status` is a query param"]
+            },
+            {
+              "const": "header",
+              "title": "Header params"
+            },
+            {
+              "const": "cookie",
+              "title": "Cookie params"
+            }
+          ]
+        },
+        "schema": {
+          "type": "object"
+        }
       }
     }
   }

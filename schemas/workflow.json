@@ -139,11 +139,15 @@
         "id": {
           "$ref": "#/definitions/id"
         },
+        "description": {
+          "$ref": "#/definitions/description"
+        },
         "fn": {
           "$ref": "#/definitions/fn"
         },
         "on_error": {
           "$ref": "#/definitions/on_error"
+<<<<<<< HEAD
         },
         "description":{
           "$ref": "#/definitions/description"
@@ -165,6 +169,8 @@
               "$ref": "#/definitions/args"
             }
           }
+=======
+>>>>>>> main
         },
         "params": true,
         "retry": true,
@@ -574,19 +580,26 @@
       "properties": {
         "args": {
           "type": "object",
+          "title": "args",
           "required": ["datasource", "config"],
           "properties": {
             "datasource": {
+              "title": "datasource",
+              "description": "datasource name defined in `datasources`.",
               "type": "string"
             },
             "data": {
-              "type": "object"
+              "title": "data",
+              "description": "It can be `object` either `template string`",
+              "type": ["object", "string"]
             },
             "config": {
+              "title": "config",
               "type": "object",
               "required": ["method"],
               "properties": {
                 "method": {
+                  "title": "method",
                   "type": "string",
                   "default": ""
                 }
