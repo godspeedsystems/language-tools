@@ -12,7 +12,11 @@
         "description": { "type": "string" },
         "summary": { "type": "string" },
         "fn": { "type": "string" },
+<<<<<<< HEAD
+        "params": { "type": "array" },
+=======
         "params": { "$ref": "#/definitions/params" },
+>>>>>>> main
         "body": { "type": "object" },
         "responses": { "type": "object" },
         "authn": { "type": "boolean" },
