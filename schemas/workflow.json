@@ -68,16 +68,6 @@
       "type": "string",
       "oneOf": [
         {
-          "const": "com.gs.datastore",
-          "title": "com.gs.datastore",
-          "description": "This function will help you access Prisma datastore."
-        },
-        {
-          "const": "com.gs.http",
-          "title": "com.gs.http",
-          "description": "Call a third party api, or other microservices"
-        },
-        {
           "const": "com.gs.return",
           "title": "com.gs.return",
           "description": "Return the arguments and end the task."
@@ -131,11 +121,6 @@
           "const": "com.gs.else",
           "title": "com.gs.else",
           "description": "The args are `condition` and `tasks`. `condition` takes a coffee/js expression to be evaluated during runtime. The `tasks` can invoke another function or a workflow."
-        },
-        {
-          "const": "com.gs.redis",
-          "title": "com.gs.redis",
-          "description": "To access redis datastore."
         },
         {
           "pattern": "^datastore."
@@ -450,65 +435,6 @@
         "interval"
       ]
     },
-    "com-gs-http": {
-      "type": "object",
-      "required": [
-        "args"
-      ],
-      "properties": {
-        "params": {
-          "type": [
-            "object",
-            "string"
-          ]
-        },
-        "args": {
-          "type": [
-            "object",
-            "string"
-          ],
-          "title": "args",
-          "required": [
-            "datasource",
-            "config"
-          ],
-          "default": {
-            "datasource": {},
-            "config": {}
-          },
-          "properties": {
-            "datasource": {
-              "type": "string"
-            },
-            "config": {
-              "type": "object",
-              "required": [
-                "url",
-                "method"
-              ],
-              "properties": {
-                "url": {
-                  "type": "string"
-                },
-                "method": {
-                  "type": "string",
-                  "enum": [
-                    "get",
-                    "put",
-                    "post",
-                    "delete",
-                    "options"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "retry": {
-          "$ref": "#/definitions/retry"
-        }
-      }
-    },
     "com-gs-return": {
       "title": "args",
       "description": "Can be template string with `js` or an `object`",
@@ -660,95 +586,6 @@
       },
       "required": [
         "tasks"
-      ]
-    },
-    "com-gs-redis": {
-      "type": "object",
-      "required": [
-        "args"
-      ],
-      "properties": {
-        "args": {
-          "type": "object",
-          "properties": {
-            "config": {
-              "type": "object",
-              "properties": {
-                "method": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "method"
-              ]
-            },
-            "data": {
-              "type": "object",
-              "properties": {
-                "key": {
-                  "type": "string",
-                  "default": ""
-                },
-                "value": {
-                  "type": "string",
-                  "default": ""
-                }
-              },
-              "required": [
-                "key"
-              ]
-            }
-          },
-          "required": [
-            "config",
-            "data"
-          ]
-        }
-      }
-    },
-    "com-gs-datastore": {
-      "type": "object",
-      "properties": {
-        "args": {
-          "type": "object",
-          "title": "args",
-          "required": [
-            "datasource",
-            "config"
-          ],
-          "properties": {
-            "datasource": {
-              "title": "datasource",
-              "description": "datasource name defined in `datasources`.",
-              "type": "string"
-            },
-            "data": {
-              "title": "data",
-              "description": "It can be `object` either `template string`",
-              "type": [
-                "object",
-                "string"
-              ]
-            },
-            "config": {
-              "title": "config",
-              "type": "object",
-              "required": [
-                "method"
-              ],
-              "properties": {
-                "method": {
-                  "title": "method",
-                  "type": "string",
-                  "default": ""
-                }
-              }
-            }
-          }
-        }
-      },
-      "required": [
-        "args"
       ]
     }
   }
