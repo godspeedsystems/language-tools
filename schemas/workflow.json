@@ -22,6 +22,9 @@
     },
     "retry": {
       "$ref": "#/definitions/retry"
+    },
+    "additionalProperties": {
+      "$ref": "#/definitions/additionalProperties"
     }
   },
   "required": [
@@ -29,26 +32,37 @@
   ],
   "definitions": {
     "args": {
-      "type": "string",
+      "type": ["string", "object"],
       "default": "<% %>"
     },
     "id": {
       "type": "string",
       "title": "ID",
       "description": "Unique ID for the workflow, It is recommanded for better logging visibility.",
-      "default": "unique_id"
+      "default": "unique_id",
+      "maxLength": 25,
+      "minLength": 1,
+      "pattern": "^[^\\s]+$"
     },
     "description": {
       "type": "string",
       "title": "Description",
       "description": "Detail description of workflow",
-      "default": "detailed description of workflow"
+      "default": "detailed description of workflow",
+      "maxLength": 30,
+      "minLength": 2
     },
     "summary": {
       "type": "string",
       "title": "Title",
       "description": "Title of the workflow, meta info about the workflow",
-      "default": "short summary of the workflow"
+      "default": "short summary of the workflow",
+      "maxLength": 30,
+      "minLength": 2
+    },
+    "additionalProperties": {
+      "type": "boolean",
+      "default": false
     },
     "fn": {
       "type": "string",
@@ -122,6 +136,9 @@
           "const": "com.gs.redis",
           "title": "com.gs.redis",
           "description": "To access redis datastore."
+        },
+        {
+          "pattern": "^datastore."
         }
       ]
     },
@@ -151,8 +168,7 @@
           "$ref": "#/definitions/on_error"
         },
         "args": {
-          "type": "string",
-          "default": "<% %>"
+          "$ref": "#/definitions/args"
         },
         "defaults": {
           "type": "object",
@@ -167,6 +183,12 @@
               "$ref": "#/definitions/args"
             }
           }
+        },
+        "cache": {
+          "type": "object"
+        },
+        "authz": {
+          "type": "object"
         },
         "params": true,
         "retry": true,
@@ -387,7 +409,7 @@
           "description": "Whether the next task should be executed, in case this wokflow/task fails."
         },
         "response": {
-          "type": "string"
+          "type": ["string", "object"]
         }
       }
     },

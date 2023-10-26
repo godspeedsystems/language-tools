@@ -9,22 +9,14 @@
       "type": "object",
       "examples": [{ "summary": "summary of the event" }],
       "properties": {
-        "description": { "type": "string" },
-        "summary": { "type": "string" },
-        "fn": { "type": "string" },
-<<<<<<< HEAD
-        "params": { "type": "array" },
-=======
-        "params": { "$ref": "#/definitions/params" },
->>>>>>> main
-        "body": { "type": "object" },
-        "responses": { "type": "object" },
-        "authn": { "type": "boolean" },
-        "on_validation_error": {
-          "type" : "string",
-          "$comment": "This should later only allow valid identifiers denoting a function, currently fn property is also a string",
-          "description": "Specifies a function which would be run if a validation error happens for the request"
-        }
+        "description": { "$ref": "#/definitions/description" },
+        "summary": { "$ref": "#/definitions/summary" },
+        "function": {"$ref": "#/definitions/function"},
+        "params": { "$ref": "#/definitions/params"},
+        "body": {"$ref": "#/definitions/body"},
+        "authn": {"$ref": "#/definitions/authn"},
+        "on_validation_error": {"$ref": "#/definitions/on_validation_error"},
+        "response": {"$ref": "#/definitions/response"}
       }
     }
   },
@@ -39,38 +31,168 @@
       "minItems": 1
     },
     "param": {
-      "type": "object",
+      "type":"object",
+      "additionalItems": false,
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "Name",
+          "description": "Name of Params",
+          "default": "name_one"
         },
         "in": {
+          "$ref": "#/definitions/in"
+        },
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+        "description": {
           "type": "string",
-          "oneOf": [
-            {
-              "const": "path",
-              "title": "Path params",
-              "examples": ["`/hello:name` `name` is a path param"]
-            },
-            {
-              "const": "query",
-              "title": "Query params",
-              "examples": ["`/hello?status=`, `status` is a query param"]
-            },
-            {
-              "const": "header",
-              "title": "Header params"
-            },
-            {
-              "const": "cookie",
-              "title": "Cookie params"
-            }
-          ]
+          "title": "Description",
+          "description": "Detail description of Params",
+          "default": "Detailed description of the Params",
+          "maxLength": 50,
+          "minLength": 2
         },
         "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "string"
+            }
+          }
+        },
+        "examples": {
           "type": "object"
         }
+      },
+      "required": ["name", "in"]
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "description": "Detail description of Event",
+      "default": "Detailed description of the Event",
+      "maxLength": 50,
+      "minLength": 2
+    },
+    "summary": {
+      "type": "string",
+      "title": "Summary",
+      "description": "Quick summary of Event",
+      "default": "Quick summary of the Event",
+      "maxLength": 50,
+      "minLength": 2
+  },
+  "function": {
+    "type": "string"
+  },
+  "in": {
+    "type": "string",
+    "default": "query",
+    "oneOf": [
+      {
+        "const": "query",
+        "title": "Query"
+      },
+      {
+        "const": "path",
+        "title": "Path"
+      },
+      {
+        "const": "header",
+        "title": "Header"
       }
-    }
+    ]
+  },
+  "body": {
+    "type": "object",
+    "properties": {
+      "description": {
+        "type": "string",
+        "title": "Description",
+        "default": "This is the Description of body"
+      },
+      "required": {
+        "type": "boolean",
+        "title": "Required or Not",
+        "description": "if this param is required then set it to true else false",
+        "default": false
+      },
+      "content": {
+        "type": "object",
+        "properties": {
+          "application/json" : {
+            "type": "object" ,
+            "properties": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "default": "string"
+                  }
+                },
+                "required": ["type"]
+              }
+            },
+            "required": ["schema"]
+          }
+        },
+        "required": ["application/json"]
+      }
+    },
+    "required": ["content"]
+  },
+  "authn": {
+    "type": "boolean",
+    "title": "Authentication and Authorization",
+    "description": "You can add JWT Token verification, details of how to do it is in https://docs.godspeed.systems/docs/microservices/authen-author",
+    "default": false
+  },
+  "on_validation_error": {
+    "type": "string",
+    "default": "com.jfs.handle_validation_error"
+  },
+  "response": {
+    "type": "object",
+    "properties": {
+      "200": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "default": "OK"
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "application/json": {
+                "type": "object",
+                "properties": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "default": "object"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                },
+                "required": ["schema"]
+              }
+            },
+            "required": ["application/json"]
+          }
+        },
+        "required": ["content"]
+      }
+    },
+    "required": ["200"]
+  }
   }
 }
