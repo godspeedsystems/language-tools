@@ -22,27 +22,47 @@
     },
     "retry": {
       "$ref": "#/definitions/retry"
+    },
+    "additionalProperties": {
+      "$ref": "#/definitions/additionalProperties"
     }
   },
-  "required": ["id", "tasks"],
+  "required": [
+    "tasks"
+  ],
   "definitions": {
+    "args": {
+      "type": ["string", "object"],
+      "default": "<% %>"
+    },
     "id": {
       "type": "string",
       "title": "ID",
       "description": "Unique ID for the workflow, It is recommanded for better logging visibility.",
-      "default": "unique_id"
+      "default": "unique_id",
+      "maxLength": 25,
+      "minLength": 1,
+      "pattern": "^[^\\s]+$"
     },
     "description": {
       "type": "string",
       "title": "Description",
       "description": "Detail description of workflow",
-      "default": "detailed description of workflow"
+      "default": "detailed description of workflow",
+      "maxLength": 30,
+      "minLength": 2
     },
     "summary": {
       "type": "string",
       "title": "Title",
       "description": "Title of the workflow, meta info about the workflow",
-      "default": "short summary of the workflow"
+      "default": "short summary of the workflow",
+      "maxLength": 30,
+      "minLength": 2
+    },
+    "additionalProperties": {
+      "type": "boolean",
+      "default": false
     },
     "fn": {
       "type": "string",
@@ -116,6 +136,9 @@
           "const": "com.gs.redis",
           "title": "com.gs.redis",
           "description": "To access redis datastore."
+        },
+        {
+          "pattern": "^datastore."
         }
       ]
     },
@@ -144,7 +167,29 @@
         "on_error": {
           "$ref": "#/definitions/on_error"
         },
-        "args": true,
+        "args": {
+          "$ref": "#/definitions/args"
+        },
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/id"
+            },
+            "fn": {
+              "$ref": "#/definitions/fn"
+            },
+            "args": {
+              "$ref": "#/definitions/args"
+            }
+          }
+        },
+        "cache": {
+          "type": "object"
+        },
+        "authz": {
+          "type": "object"
+        },
         "params": true,
         "retry": true,
         "tasks": true,
@@ -152,7 +197,10 @@
         "cases": true,
         "condition": true
       },
-      "required": ["id", "fn"],
+      "required": [
+        "id",
+        "fn"
+      ],
       "allOf": [
         {
           "if": {
@@ -161,7 +209,9 @@
                 "const": "com.gs.return"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-return"
@@ -174,7 +224,9 @@
                 "const": "com.gs.log"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-log"
@@ -187,7 +239,9 @@
                 "const": "com.gs.transform"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-transform"
@@ -200,7 +254,9 @@
                 "const": "com.gs.series"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-series-and-parallel"
@@ -213,7 +269,9 @@
                 "const": "com.gs.parallel"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-series-and-parallel"
@@ -222,9 +280,13 @@
         {
           "if": {
             "properties": {
-              "fn": { "const": "com.gs.switch" }
+              "fn": {
+                "const": "com.gs.switch"
+              }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-switch"
@@ -237,7 +299,9 @@
                 "const": "com.gs.each_sequential"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-each_sequential_and_parallel"
@@ -250,7 +314,9 @@
                 "const": "com.gs.each_parallel"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-each_sequential_and_parallel"
@@ -263,7 +329,9 @@
                 "const": "com.gs.if"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-if-elif"
@@ -276,7 +344,9 @@
                 "const": "com.gs.elif"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-if-elif"
@@ -289,7 +359,9 @@
                 "const": "com.gs.else"
               }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-else"
@@ -298,9 +370,13 @@
         {
           "if": {
             "properties": {
-              "fn": { "const": "com.gs.redis" }
+              "fn": {
+                "const": "com.gs.redis"
+              }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-redis"
@@ -309,9 +385,13 @@
         {
           "if": {
             "properties": {
-              "fn": { "const": "com.gs.datastore" }
+              "fn": {
+                "const": "com.gs.datastore"
+              }
             },
-            "required": ["fn"]
+            "required": [
+              "fn"
+            ]
           },
           "then": {
             "$ref": "#/definitions/com-gs-datastore"
@@ -329,7 +409,7 @@
           "description": "Whether the next task should be executed, in case this wokflow/task fails."
         },
         "response": {
-          "type": "string"
+          "type": ["string", "object"]
         }
       }
     },
@@ -344,7 +424,11 @@
         },
         "type": {
           "type": "string",
-          "enum": ["constant", "exponential", "random"],
+          "enum": [
+            "constant",
+            "exponential",
+            "random"
+          ],
           "default": "constant"
         },
         "interval": {
@@ -361,34 +445,60 @@
           "type": "string"
         }
       },
-      "required": ["type", "interval"]
+      "required": [
+        "type",
+        "interval"
+      ]
     },
     "com-gs-http": {
       "type": "object",
-      "required": ["args"],
+      "required": [
+        "args"
+      ],
       "properties": {
         "params": {
-          "type": ["object", "string"]
+          "type": [
+            "object",
+            "string"
+          ]
         },
         "args": {
-          "type": ["object", "string"],
+          "type": [
+            "object",
+            "string"
+          ],
           "title": "args",
-          "required": ["datasource", "config"],
-          "default": { "datasource": {}, "config": {} },
+          "required": [
+            "datasource",
+            "config"
+          ],
+          "default": {
+            "datasource": {},
+            "config": {}
+          },
           "properties": {
             "datasource": {
               "type": "string"
             },
             "config": {
               "type": "object",
-              "required": ["url", "method"],
+              "required": [
+                "url",
+                "method"
+              ],
               "properties": {
                 "url": {
                   "type": "string"
                 },
                 "method": {
                   "type": "string",
-                  "enum": ["get", "put", "post", "delete", "options"]
+                  "enum": [
+                    "get",
+                    "put",
+                    "post",
+                    "delete",
+                    "options"
+                  ]
                 }
               }
             }
@@ -404,18 +514,26 @@
       "description": "Can be template string with `js` or an `object`",
       "properties": {
         "args": {
-          "type": ["object", "string"],
+          "type": [
+            "object",
+            "string"
+          ],
           "default": "<% %>"
         }
       },
-      "required": ["args"]
+      "required": [
+        "args"
+      ]
     },
     "com-gs-log": {
       "title": "args",
       "description": "Can be template string with `js` or an `object`",
       "properties": {
         "args": {
-          "type": ["object", "string"],
+          "type": [
+            "object",
+            "string"
+          ],
           "properties": {
             "level": {
               "type": "string",
@@ -432,29 +550,42 @@
               "default": "debug"
             },
             "data": {
-              "type": ["string", "object"],
+              "type": [
+                "string",
+                "object"
+              ],
               "default": "<% %>"
             }
           }
         }
       },
-      "required": ["args"]
+      "required": [
+        "args"
+      ]
     },
     "com-gs-transform": {
       "title": "args",
       "properties": {
         "args": {
-          "type": ["object", "string"],
+          "type": [
+            "object",
+            "string"
+          ],
           "properties": {
             "data": {
               "title": "data",
-              "type": ["object", "string"],
+              "type": [
+                "object",
+                "string"
+              ],
               "default": ""
             }
           }
         }
       },
-      "required": ["args"]
+      "required": [
+        "args"
+      ]
     },
     "com-gs-series-and-parallel": {
       "properties": {
@@ -462,25 +593,35 @@
           "$ref": "#/definitions/tasks"
         }
       },
-      "required": ["tasks"]
+      "required": [
+        "tasks"
+      ]
     },
     "com-gs-switch": {
       "properties": {
         "value": {
-          "type": ["string"]
+          "type": [
+            "string"
+          ]
         },
         "cases": {
           "type": "object"
         }
       },
-      "required": ["cases"]
+      "required": [
+        "cases"
+      ]
     },
     "com-gs-each_sequential_and_parallel": {
       "properties": {
         "value": {
           "type": "array",
           "items": {
-            "type": ["number", "string", "object"]
+            "type": [
+              "number",
+              "string",
+              "object"
+            ]
           },
           "minItems": 1,
           "default": []
@@ -489,7 +630,10 @@
           "$ref": "#/definitions/tasks"
         }
       },
-      "required": ["value", "tasks"]
+      "required": [
+        "value",
+        "tasks"
+      ]
     },
     "com-gs-if-elif": {
       "type": "object",
@@ -502,7 +646,10 @@
           "$ref": "#/definitions/tasks"
         }
       },
-      "required": ["condition", "tasks"]
+      "required": [
+        "condition",
+        "tasks"
+      ]
     },
     "com-gs-else": {
       "type": "object",
@@ -511,11 +658,15 @@
           "$ref": "#/definitions/tasks"
         }
       },
-      "required": ["tasks"]
+      "required": [
+        "tasks"
+      ]
     },
     "com-gs-redis": {
       "type": "object",
-      "required": ["args"],
+      "required": [
+        "args"
+      ],
       "properties": {
         "args": {
           "type": "object",
@@ -527,7 +678,9 @@
                   "type": "string"
                 }
               },
-              "required": ["method"]
+              "required": [
+                "method"
+              ]
             },
             "data": {
               "type": "object",
@@ -541,10 +694,15 @@
                   "default": ""
                 }
               },
-              "required": ["key"]
+              "required": [
+                "key"
+              ]
             }
           },
-          "required": ["config", "data"]
+          "required": [
+            "config",
+            "data"
+          ]
         }
       }
     },
@@ -554,7 +712,10 @@
         "args": {
           "type": "object",
           "title": "args",
-          "required": ["datasource", "config"],
+          "required": [
+            "datasource",
+            "config"
+          ],
           "properties": {
             "datasource": {
               "title": "datasource",
@@ -564,12 +725,17 @@
             "data": {
               "title": "data",
               "description": "It can be `object` either `template string`",
-              "type": ["object", "string"]
+              "type": [
+                "object",
+                "string"
+              ]
             },
             "config": {
               "title": "config",
               "type": "object",
-              "required": ["method"],
+              "required": [
+                "method"
+              ],
               "properties": {
                 "method": {
                   "title": "method",
@@ -581,7 +747,9 @@
           }
         }
       },
-      "required": ["args"]
+      "required": [
+        "args"
+      ]
     }
   }
 }
