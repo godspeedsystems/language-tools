@@ -56,7 +56,6 @@ export function activate(context: vscode.ExtensionContext) {
   // Start the client. This will also launch the server
   client.start();
 
-  debugger;
 
   console.log(
     `Congratulations, your extension "${context.extension.packageJSON.displayName}" installed!`
