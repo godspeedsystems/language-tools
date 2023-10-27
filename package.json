@@ -4,7 +4,7 @@
   "description": "VSCode extension for development assistance with Godspeed micro-service framework.",
   "publisher": "zero8",
   "license": "MIT",
-  "version": "1.6.2",
+  "version": "1.6.4",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.74.0"
