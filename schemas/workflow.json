@@ -351,36 +351,6 @@
           "then": {
             "$ref": "#/definitions/com-gs-else"
           }
-        },
-        {
-          "if": {
-            "properties": {
-              "fn": {
-                "const": "com.gs.redis"
-              }
-            },
-            "required": [
-              "fn"
-            ]
-          },
-          "then": {
-            "$ref": "#/definitions/com-gs-redis"
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "fn": {
-                "const": "com.gs.datastore"
-              }
-            },
-            "required": [
-              "fn"
-            ]
-          },
-          "then": {
-            "$ref": "#/definitions/com-gs-datastore"
-          }
         }
       ]
     },
@@ -401,7 +371,7 @@
     "retry": {
       "type": "object",
       "title": "Retry mechanism",
-      "description": "Retry logic helps to handle transient failures, internal server errors, and network errors with support for constant, exponential and random types.\n`Currently applied only for com.gs.http workflow.`",
+      "description": "Retry logic helps to handle transient failures, internal server errors, and network errors with support for constant, exponential and random types.\n`Currently applied only for workflow.`",
       "properties": {
         "max_attempts": {
           "type": "number",
