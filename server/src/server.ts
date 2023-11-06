@@ -60,7 +60,6 @@ connection.onInitialize((params: InitializeParams) => {
 
 connection.onInitialized(() => {
   if (hasConfigurationCapability) {
-    debugger;
     connection.client.register(
       DidChangeConfigurationNotification.type,
       undefined

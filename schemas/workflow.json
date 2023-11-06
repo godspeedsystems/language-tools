@@ -49,7 +49,7 @@
       "title": "Description",
       "description": "Detail description of workflow",
       "default": "detailed description of workflow",
-      "maxLength": 30,
+      "maxLength": 50,
       "minLength": 2
     },
     "summary": {
@@ -156,17 +156,18 @@
           "$ref": "#/definitions/args"
         },
         "defaults": {
-          "type": "object",
+          "type": ["array", "object"] ,
           "properties": {
             "id": {
               "$ref": "#/definitions/id"
             },
-            "fn": {
-              "$ref": "#/definitions/fn"
-            },
             "args": {
               "$ref": "#/definitions/args"
+            },
+            "fn": {
+              "$ref": "#/definitions/fn"
             }
+           
           }
         },
         "cache": {
@@ -351,36 +352,6 @@
           "then": {
             "$ref": "#/definitions/com-gs-else"
           }
-        },
-        {
-          "if": {
-            "properties": {
-              "fn": {
-                "const": "com.gs.redis"
-              }
-            },
-            "required": [
-              "fn"
-            ]
-          },
-          "then": {
-            "$ref": "#/definitions/com-gs-redis"
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "fn": {
-                "const": "com.gs.datastore"
-              }
-            },
-            "required": [
-              "fn"
-            ]
-          },
-          "then": {
-            "$ref": "#/definitions/com-gs-datastore"
-          }
         }
       ]
     },
@@ -532,6 +503,20 @@
         },
         "cases": {
           "type": "object"
+        },
+        "defaults": {
+          "type": ["array", "object"],
+          "properties": {
+            "id": {
+              "type":"string"
+            },
+            "fn": {
+              "type": "string"
+            },
+            "args": {
+              "type": "string" 
+            }
+          }
         }
       },
       "required": [

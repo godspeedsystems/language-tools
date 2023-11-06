@@ -44,6 +44,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "when": ".godspeed" ,
   "main": "./client/out/extension",
   "contributes": {
     "snippets": [

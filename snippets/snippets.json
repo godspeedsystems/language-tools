@@ -39,5 +39,154 @@
       "\t\targs: <%  %>",
       "\n"
     ]
+  },
+  "create a return workflow": {
+    "prefix": ["return workflow"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.return",
+      "\tdescription: ${2:more details about the function }",
+      "\targs: 'Hello this is return function args' "
+    ]
+  },
+  "create a transform workflow": {
+    "prefix": ["transform workflow"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.transform",
+      "\tdescription: ${2:more details about the function }",
+      "\targs: <% outputs.return_hello_world.data + inputs.query.name %> "
+    ]
+  },
+  "create a parallel workflow": {
+    "prefix": ["parallel workflow"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.parallel",
+      "\tdescription: ${2:more details about the function }",
+      "\ttasks:",
+      "\t\t- id: 1st",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'hello' ",
+      "\t\t- id: 2nd",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'hello world' ",
+      "\t\t- id: 3rd",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'HELLO WORLD' ",
+      "",
+      "- id: unique_id",
+      "\tfn: com.gs.return",
+      "\targs:  |",
+      "\t\t<%  outputs['1st'] %>" 
+    ]
+  },
+  "create a switch workflow": {
+    "prefix":["switch workflow"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.switch",
+      "\tdescription: ${2:more details about the function }",
+      "\tvalue: <%inputs.body.condition%>",
+      "\tcases:",
+      "\t\tFIRST:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\t\tSECOND:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\t\tTHIRD:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\tdefaults:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: <% 'all' %>"
+    ]
+  },
+  "create a each_sequential workflow": {
+    "prefix": [ "each_sequential workflow"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.each_sequential",
+      "\tdescription: ${2:more details about the function }",
+      "\tvalue: [1, 2, 3, 4]",
+      "\ttasks:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.transform",
+      "\t\t\targs: <% inputs.body.number * task_value %>",
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.transform",
+      "\tdescription: ${2:more details about the function }",
+      "\targs: <% outputs.each_sequential_step1.data %>"
+
+    ]
+  },
+  "create a each_parallel workflow": {
+    "prefix": ["each_parallel workflow"],
+    "body": [
+      "- id: unique_id",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.each_parallel",
+      "\tvalue: [1, 2, 3, 4]",
+      "\ttasks:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.transform",
+      "\t\t\targs: <% 'each_task1 ' + task_value %>",
+      "- id: unique_id2",
+      "\tdescription: more details of the function" ,
+      "\tfn: com.gs.transform",
+      "\targs: <% outputs.each_parallel_step1 %>"
+    ]
+  },
+  "create a log workflow": {
+    "prefix": ["log workflow"],
+    "body": [
+      "- id: sum_step1",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.transform",
+      "\targs: <% inputs.body.x + inputs.body.y %>",
+      "- id: unique_id2",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.log",
+      "\targs:",
+      "\t\tlevel: info",
+      "\t\tdata: <% outputs.sum_step1 %>",
+      "- id: unique_id3",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.return",
+      "\targs: <js% (outputs.sum_step1) %>"
+
+    ]
+  },
+  "create a if-else workflow": {
+    "prefix": ["ifelse workflow"],
+    "body": [
+      "- id: unique_id1",
+      "\tfn: com.gs.if",
+      "\tdescription: more details about the function ",
+      "\tcondition: <% inputs.query.greet == 'hello' %>" ,
+      "\ttasks:",
+      "\t\t- id: unique_id2",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hello ! Welcome to Godspeed Language Tool Extension' ",
+      "- id: unique_id3",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.elif",
+      "\tcondition: <% inputs.query.greet == 'Hola' %>",
+      "\ttasks:",
+      "\t\t- id: unique_id4",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hola ! Welcome to Godspeed Language Tool Extension' ",
+      "- id: unique_id5",
+      "\tfn: com.gs.else",
+      "\ttasks: ",
+      "\t\t- id: unique_id6",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hello Developer ...'"
+    ]
   }
 }
