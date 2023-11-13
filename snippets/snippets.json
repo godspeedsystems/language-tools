@@ -40,8 +40,8 @@
       "\n"
     ]
   },
-  "create a return workflow": {
-    "prefix": ["return workflow"],
+  "create a return task": {
+    "prefix": ["return task"],
     "body": [
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.return",
@@ -49,8 +49,8 @@
       "\targs: 'Hello this is return function args' "
     ]
   },
-  "create a transform workflow": {
-    "prefix": ["transform workflow"],
+  "create a transform task": {
+    "prefix": ["transform task"],
     "body": [
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.transform",
@@ -58,8 +58,8 @@
       "\targs: <% outputs.return_hello_world.data + inputs.query.name %> "
     ]
   },
-  "create a parallel workflow": {
-    "prefix": ["parallel workflow"],
+  "create a parallel task": {
+    "prefix": ["parallel task"],
     "body": [
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.parallel",
@@ -81,8 +81,8 @@
       "\t\t<%  outputs['1st'] %>" 
     ]
   },
-  "create a switch workflow": {
-    "prefix":["switch workflow"],
+  "create a switch task": {
+    "prefix":["switch task"],
     "body": [
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.switch",
@@ -107,8 +107,8 @@
       "\t\t\targs: <% 'all' %>"
     ]
   },
-  "create a each_sequential workflow": {
-    "prefix": [ "each_sequential workflow"],
+  "create a each_sequential task": {
+    "prefix": [ "each_sequential task"],
     "body": [
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.each_sequential",
@@ -125,8 +125,8 @@
 
     ]
   },
-  "create a each_parallel workflow": {
-    "prefix": ["each_parallel workflow"],
+  "create a each_parallel task": {
+    "prefix": ["each_parallel task"],
     "body": [
       "- id: unique_id",
       "\tdescription: more details about the function",
@@ -142,8 +142,8 @@
       "\targs: <% outputs.each_parallel_step1 %>"
     ]
   },
-  "create a log workflow": {
-    "prefix": ["log workflow"],
+  "create a log task": {
+    "prefix": ["log task"],
     "body": [
       "- id: sum_step1",
       "\tdescription: more details about the function",
@@ -162,8 +162,8 @@
 
     ]
   },
-  "create a if-else workflow": {
-    "prefix": ["ifelse workflow"],
+  "create a if-else task": {
+    "prefix": ["ifelse task"],
     "body": [
       "- id: unique_id1",
       "\tfn: com.gs.if",
