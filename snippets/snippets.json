@@ -2,7 +2,7 @@
   "create godspeed event": {
     "prefix": ["godspeed event"],
     "body": [
-      "/${1|http,kafka,salesforce,cron|}.${2|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}.${3:event-endpoint}:",
+      "${1|http,kafka,salesforce,cron|}.${2|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}./${3:event-endpoint}:",
       "\tauthn: false",
       "\tsummary: ${4:'summary of the event'}",
       "\tdescription: ${5:'description of the event'}",
