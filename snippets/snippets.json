@@ -215,7 +215,7 @@
   "kafka workflow for Producer": {
     "prefix": ["kafka workflow for procucer"],
     "body": [
-      "id: 'kafka_publish'}",
+      "id: kafka_publish",
       "summary: kafka publish message ",
       "tasks:",
       "\t- id: publish",
