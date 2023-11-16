@@ -4,19 +4,19 @@
   "description": "A recipe for Godspeed events.",
   "type": "object",
   "patternProperties": {
-    "(^/)([a-zA-Z0-9:/-]+)(.)(kafka|http)(.)(get|put|post|delete|options){1}": {
+    "(kafka|http)(.)(get|put|post|delete|options)(.)([a-zA-Z0-9:/-]+){1}": {
       "description": "eventKey",
       "type": "object",
       "examples": [{ "summary": "summary of the event" }],
       "properties": {
         "description": { "$ref": "#/definitions/description" },
         "summary": { "$ref": "#/definitions/summary" },
-        "function": {"$ref": "#/definitions/function"},
+        "fn": {"$ref": "#/definitions/fn"},
         "params": { "$ref": "#/definitions/params"},
         "body": {"$ref": "#/definitions/body"},
         "authn": {"$ref": "#/definitions/authn"},
         "on_validation_error": {"$ref": "#/definitions/on_validation_error"},
-        "response": {"$ref": "#/definitions/response"}
+        "responses": {"$ref": "#/definitions/responses"}
       }
     }
   },
@@ -86,7 +86,7 @@
       "maxLength": 50,
       "minLength": 2
   },
-  "function": {
+  "fn": {
     "type": "string"
   },
   "in": {
@@ -136,6 +136,30 @@
                   }
                 },
                 "required": ["type"]
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "default": "string"
+                      }
+                    }
+                  },
+                  "email": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "default": "string"
+                      }
+                    }
+                  }
+                },
+                "required": []
               }
             },
             "required": ["schema"]
@@ -156,7 +180,7 @@
     "type": "string",
     "default": "com.jfs.handle_validation_error"
   },
-  "response": {
+  "responses": {
     "type": "object",
     "properties": {
       "200": {

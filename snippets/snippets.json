@@ -2,7 +2,7 @@
   "create godspeed event": {
     "prefix": ["godspeed event"],
     "body": [
-      "/${1:event-endpoint}.${2|http,kafka,salesforce,cron|}.${3|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}:",
+      "/${1|http,kafka,salesforce,cron|}.${2|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}.${3:event-endpoint}:",
       "\tauthn: false",
       "\tsummary: ${4:'summary of the event'}",
       "\tdescription: ${5:'description of the event'}",
@@ -17,6 +17,12 @@
       "\t\t\tapplication/json:",
       "\t\t\t\tschema:",
       "\t\t\t\t\ttype: object",
+      "\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\tname:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\t\temail:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\trequired: [name , email]",
       "\tresponses:${9}",
       "\t\t'200':",
       "\t\t\tdescription: OK",
@@ -44,8 +50,8 @@
     "prefix": ["return task"],
     "body": [
       "- id: ${3:'unique_ID'}",
-      "\tfn: com.gs.return",
       "\tdescription: ${2:more details about the function }",
+      "\tfn: com.gs.return",
       "\targs: 'Hello this is return function args' "
     ]
   },
@@ -85,8 +91,8 @@
     "prefix":["switch task"],
     "body": [
       "- id: ${3:'unique_ID'}",
-      "\tfn: com.gs.switch",
       "\tdescription: ${2:more details about the function }",
+      "\tfn: com.gs.switch",
       "\tvalue: <%inputs.body.condition%>",
       "\tcases:",
       "\t\tFIRST:",
@@ -121,7 +127,7 @@
       "- id: ${3:'unique_ID'}",
       "\tfn: com.gs.transform",
       "\tdescription: ${2:more details about the function }",
-      "\targs: <% outputs.each_sequential_step1.data %>"
+      "\targs: <% outputs.unique_ID.data %>"
 
     ]
   },
@@ -139,27 +145,18 @@
       "- id: unique_id2",
       "\tdescription: more details of the function" ,
       "\tfn: com.gs.transform",
-      "\targs: <% outputs.each_parallel_step1 %>"
+      "\targs: <% outputs.unique_id %>"
     ]
   },
   "create a log task": {
     "prefix": ["log task"],
     "body": [
-      "- id: sum_step1",
-      "\tdescription: more details about the function",
-      "\tfn: com.gs.transform",
-      "\targs: <% inputs.body.x + inputs.body.y %>",
       "- id: unique_id2",
       "\tdescription: more details about the function",
       "\tfn: com.gs.log",
       "\targs:",
       "\t\tlevel: info",
-      "\t\tdata: <% outputs.sum_step1 %>",
-      "- id: unique_id3",
-      "\tdescription: more details about the function",
-      "\tfn: com.gs.return",
-      "\targs: <js% (outputs.sum_step1) %>"
-
+      "\t\tdata: <% outputs.unique_id %>"
     ]
   },
   "create a if-else task": {
@@ -187,6 +184,46 @@
       "\t\t- id: unique_id6",
       "\t\t\tfn: com.gs.return",
       "\t\t\targs: 'Hello Developer ...'"
+    ]
+  },
+  "kafka event for Producer": {
+    "prefix": ["kafka event"],
+    "body": [
+      "'http.post./kafka-pub':",
+      "\tfn: kafka-publish",
+      "\tbody: ",
+      "\t\tcontent:",
+      "\t\t\tapplication/json:",
+      "\t\t\t\tschema:",
+      "\t\t\t\t\ttype: object",
+      "\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\tmessage:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\trequired: [ 'message' ]",
+      "\tresponses:",
+      "\t\t200:",
+      "\t\t\tcontent:",
+      "\t\t\t\tapplication/json:",
+      "\t\t\t\t\tschema:",
+      "\t\t\t\t\t\ttype: object",
+      "\t\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\t\tname:",
+      "\t\t\t\t\t\t\t\ttype: string"
+
+    ]
+  },
+  "kafka workflow for Producer": {
+    "prefix": ["kafka workflow for procucer"],
+    "body": [
+      "id: 'kafka_publish'}",
+      "summary: kafka publish message ",
+      "tasks:",
+      "\t- id: publish",
+      "\t\tfn: datasource.kafka.producer",
+      "\t\targs:",
+      "\t\t\ttopic: 'publish-producer1'",
+      "\t\t\tmessage: <% inputs.body.message %>"
+   
     ]
   }
 }
