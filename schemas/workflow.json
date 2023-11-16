@@ -123,7 +123,7 @@
           "description": "The args are `condition` and `tasks`. `condition` takes a coffee/js expression to be evaluated during runtime. The `tasks` can invoke another function or a workflow."
         },
         {
-          "pattern": "^datastore."
+          "pattern": "^datasource."
         }
       ]
     },
