@@ -6,6 +6,9 @@
   "properties": {
     "type": {
       "$ref": "#/definitions/type"
+    },
+    "base_url" : {
+      "type" : "string"
     }
   },
   "additionalProperties": false,
@@ -13,11 +16,11 @@
     "type": {
       "type": "string",
       "title": "Datasource Type",
-      "description": "As of now godspeed support `api`, `kafka`, `elasticgraph`, `aws` and `redis`",
+      "description": "As of now godspeed support `axios`, `kafka`, `elasticgraph`, `aws` and `redis`",
       "oneOf": [
         {
-          "const": "api",
-          "description": "HTTP api"
+          "const": "axios",
+          "description": "AXIOS"
         },
         {
           "const": "kafka",

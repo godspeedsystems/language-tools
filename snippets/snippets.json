@@ -2,7 +2,7 @@
   "create godspeed event": {
     "prefix": ["godspeed event"],
     "body": [
-      "/${1:event-endpoint}.${2|http,kafka,salesforce,cron|}.${3|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}:",
+      "${1|http,kafka,salesforce,cron|}.${2|get,put,post,delete,options,insert(),update(),delate(),upsert(),undelete(),{timezone},consumer_id|}./${3:event-endpoint}:",
       "\tauthn: false",
       "\tsummary: ${4:'summary of the event'}",
       "\tdescription: ${5:'description of the event'}",
@@ -17,6 +17,12 @@
       "\t\t\tapplication/json:",
       "\t\t\t\tschema:",
       "\t\t\t\t\ttype: object",
+      "\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\tname:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\t\temail:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\trequired: [name , email]",
       "\tresponses:${9}",
       "\t\t'200':",
       "\t\t\tdescription: OK",
@@ -38,6 +44,186 @@
       "\t\tfn: ${5|com.gs.return,com.gs.kafka,com.gs.elasticgraph,com.gs.transform,com.gs.series,com.gs.parallel,com.gs.switch,com.gs.each_sequential,com.gs.each_parallel,com.gs.log,com.gs.dynamic_fn,com.gs.aws|}",
       "\t\targs: <%  %>",
       "\n"
+    ]
+  },
+  "create a return task": {
+    "prefix": ["return task"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tdescription: ${2:more details about the function }",
+      "\tfn: com.gs.return",
+      "\targs: 'Hello this is return function args' "
+    ]
+  },
+  "create a transform task": {
+    "prefix": ["transform task"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.transform",
+      "\tdescription: ${2:more details about the function }",
+      "\targs: <% outputs.return_hello_world.data + inputs.query.name %> "
+    ]
+  },
+  "create a parallel task": {
+    "prefix": ["parallel task"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.parallel",
+      "\tdescription: ${2:more details about the function }",
+      "\ttasks:",
+      "\t\t- id: 1st",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'hello' ",
+      "\t\t- id: 2nd",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'hello world' ",
+      "\t\t- id: 3rd",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'HELLO WORLD' ",
+      "",
+      "- id: unique_id",
+      "\tfn: com.gs.return",
+      "\targs:  |",
+      "\t\t<%  outputs['1st'] %>" 
+    ]
+  },
+  "create a switch task": {
+    "prefix":["switch task"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tdescription: ${2:more details about the function }",
+      "\tfn: com.gs.switch",
+      "\tvalue: <%inputs.body.condition%>",
+      "\tcases:",
+      "\t\tFIRST:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\t\tSECOND:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\t\tTHIRD:",
+      "\t\t\t- id: unique_id",
+      "\t\t\t\tfn: com.gs.return",
+      "\t\t\t\targs: 'Thanks For Using Godspeed'",
+      "\tdefaults:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: <% 'all' %>"
+    ]
+  },
+  "create a each_sequential task": {
+    "prefix": [ "each_sequential task"],
+    "body": [
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.each_sequential",
+      "\tdescription: ${2:more details about the function }",
+      "\tvalue: [1, 2, 3, 4]",
+      "\ttasks:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.transform",
+      "\t\t\targs: <% inputs.body.number * task_value %>",
+      "- id: ${3:'unique_ID'}",
+      "\tfn: com.gs.transform",
+      "\tdescription: ${2:more details about the function }",
+      "\targs: <% outputs.unique_ID.data %>"
+
+    ]
+  },
+  "create a each_parallel task": {
+    "prefix": ["each_parallel task"],
+    "body": [
+      "- id: unique_id",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.each_parallel",
+      "\tvalue: [1, 2, 3, 4]",
+      "\ttasks:",
+      "\t\t- id: unique_id",
+      "\t\t\tfn: com.gs.transform",
+      "\t\t\targs: <% 'each_task1 ' + task_value %>",
+      "- id: unique_id2",
+      "\tdescription: more details of the function" ,
+      "\tfn: com.gs.transform",
+      "\targs: <% outputs.unique_id %>"
+    ]
+  },
+  "create a log task": {
+    "prefix": ["log task"],
+    "body": [
+      "- id: unique_id2",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.log",
+      "\targs:",
+      "\t\tlevel: info",
+      "\t\tdata: <% outputs.unique_id %>"
+    ]
+  },
+  "create a if-else task": {
+    "prefix": ["ifelse task"],
+    "body": [
+      "- id: unique_id1",
+      "\tfn: com.gs.if",
+      "\tdescription: more details about the function ",
+      "\tcondition: <% inputs.query.greet == 'hello' %>" ,
+      "\ttasks:",
+      "\t\t- id: unique_id2",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hello ! Welcome to Godspeed Language Tool Extension' ",
+      "- id: unique_id3",
+      "\tdescription: more details about the function",
+      "\tfn: com.gs.elif",
+      "\tcondition: <% inputs.query.greet == 'Hola' %>",
+      "\ttasks:",
+      "\t\t- id: unique_id4",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hola ! Welcome to Godspeed Language Tool Extension' ",
+      "- id: unique_id5",
+      "\tfn: com.gs.else",
+      "\ttasks: ",
+      "\t\t- id: unique_id6",
+      "\t\t\tfn: com.gs.return",
+      "\t\t\targs: 'Hello Developer ...'"
+    ]
+  },
+  "kafka event for Producer": {
+    "prefix": ["kafka event"],
+    "body": [
+      "'http.post./kafka-pub':",
+      "\tfn: kafka-publish",
+      "\tbody: ",
+      "\t\tcontent:",
+      "\t\t\tapplication/json:",
+      "\t\t\t\tschema:",
+      "\t\t\t\t\ttype: object",
+      "\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\tmessage:",
+      "\t\t\t\t\t\t\ttype: string",
+      "\t\t\t\t\trequired: [ 'message' ]",
+      "\tresponses:",
+      "\t\t200:",
+      "\t\t\tcontent:",
+      "\t\t\t\tapplication/json:",
+      "\t\t\t\t\tschema:",
+      "\t\t\t\t\t\ttype: object",
+      "\t\t\t\t\t\tproperties:",
+      "\t\t\t\t\t\t\tname:",
+      "\t\t\t\t\t\t\t\ttype: string"
+
+    ]
+  },
+  "kafka workflow for Producer": {
+    "prefix": ["kafka workflow for procucer"],
+    "body": [
+      "id: kafka_publish",
+      "summary: kafka publish message ",
+      "tasks:",
+      "\t- id: publish",
+      "\t\tfn: datasource.kafka.producer",
+      "\t\targs:",
+      "\t\t\ttopic: 'publish-producer1'",
+      "\t\t\tmessage: <% inputs.body.message %>"
+   
     ]
   }
 }
