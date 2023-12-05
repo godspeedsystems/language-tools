@@ -25,8 +25,6 @@ export async function activate(context: vscode.ExtensionContext) {
       const packageData = JSON.parse(fileContents.toString());
       const godspeedCore= packageData['dependencies']['@godspeedsystems/core'];
       const tiralForVersion = semver.satisfies(godspeedCore.slice(1), '>=2.0.0');
-      console.log(`Rohit Godspeed Core system ${godspeedCore}`);
-      console.log(`Rohit get semver ${tiralForVersion}`);
       const status = false; 
       if (godspeedCore === 'latest' || tiralForVersion){       
             const serverModule = context.asAbsolutePath(
@@ -79,7 +77,6 @@ export async function activate(context: vscode.ExtensionContext) {
               }
             );
             context.subscriptions.push(installCommand);
-        console.log(`Rohit godspeed core is the latest`);
       }
       else {
         console.log(`Godspeed version is not updated`);
