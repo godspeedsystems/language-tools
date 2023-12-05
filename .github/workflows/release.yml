@@ -32,7 +32,7 @@ jobs:
       - name: Setup Git
         run: |
           git config --global user.name "Ashutosh Tripathi"
-          git config --global user.email "hello@zero8.dev"
+          git config --global user.email "admin@godspeed.systems"
       - name: Get Current Version Number
         run: |
           CURRENT_VERSION=$(cat package.json | jq .version | cut -d'"' -f 2)

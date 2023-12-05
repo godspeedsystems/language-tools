@@ -2,7 +2,7 @@
   "name": "godspeed",
   "displayName": "Godspeed Language Tools",
   "description": "VSCode extension for development assistance with Godspeed micro-service framework.",
-  "publisher": "zero8",
+  "publisher": "Godspeed",
   "license": "MIT",
   "version": "1.6.4",
   "icon": "icon.png",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/godspeedsystems/language-tools#readme",
   "bugs": {
     "url": "https://github.com/godspeedsystems/language-tools/issues",
-    "email": "hello@zero8.dev"
+    "email": "admin@godspeed.systems"
   },
   "onLoadEvent": {
     "file": ".godspeed"
