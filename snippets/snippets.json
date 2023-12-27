@@ -225,5 +225,42 @@
       "\t\t\tmessage: <% inputs.body.message %>"
    
     ]
+  },
+  "prisma schema sample": {
+    "prefix": ["prisma schema sample"],
+    "body": [
+      "datasource db {",
+      "\tprovider = 'mongodb'",
+      "\turl      = env('DATABASE_URL')",
+      "}",
+      "generator client {",
+      "\tprovider = 'prisma-client-js'",
+      "}",
+      "",
+      "model Post {",
+      "\tid       String    @id @default(auto()) @map(_id') @db.ObjectId",
+      "\tslug     String    @unique",
+      "\ttitle    String",
+      "\tbody     String",
+      "\tauthor   User      @relation(fields: [authorId], references: [id])",
+      "\tauthorId String    @db.ObjectId",
+      "comments Comment[]",
+      "}",
+      "",
+      "model User",
+      "\tid      String    @id @default(auto()) @map('_id') @db.ObjectId",
+      "\temail   String   @unique",
+      "\tname    String?",
+      "\taddress Address?",
+      "\tposts   Post[]",
+      "}",
+      "",
+      "model Comment {",
+      "\tid      String @id @default(auto()) @map('_id') @db.ObjectId",
+      "\tcomment String",
+      "\tpost    Post   @relation(fields: [postId], references: [id])",
+      "\tpostId  String @db.ObjectId",
+      "}"   
+    ]
   }
 }
