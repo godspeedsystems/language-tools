@@ -40,7 +40,7 @@
       "title": "ID",
       "description": "Unique ID for the workflow, It is recommanded for better logging visibility.",
       "default": "unique_id",
-      "maxLength": 45,
+      "maxLength": 50,
       "minLength": 1,
       "pattern": "^[^\\s]+$"
     },
@@ -49,7 +49,7 @@
       "title": "Description",
       "description": "Detail description of workflow",
       "default": "detailed description of workflow",
-      "maxLength": 50,
+      "maxLength": 50000,
       "minLength": 2
     },
     "summary": {
@@ -57,7 +57,7 @@
       "title": "Title",
       "description": "Title of the workflow, meta info about the workflow",
       "default": "short summary of the workflow",
-      "maxLength": 50,
+      "maxLength": 200,
       "minLength": 2
     },
     "additionalProperties": {

@@ -52,7 +52,7 @@
           "title": "Description",
           "description": "Detail description of Params",
           "default": "Detailed description of the Params",
-          "maxLength": 50,
+          "maxLength": 50000,
           "minLength": 2
         },
         "schema": {
@@ -75,7 +75,7 @@
       "title": "Description",
       "description": "Detail description of Event",
       "default": "Detailed description of the Event",
-      "maxLength": 50,
+      "maxLength": 50000,
       "minLength": 2
     },
     "summary": {
@@ -83,7 +83,7 @@
       "title": "Summary",
       "description": "Quick summary of Event",
       "default": "Quick summary of the Event",
-      "maxLength": 50,
+      "maxLength": 200,
       "minLength": 2
   },
   "fn": {
