@@ -4,13 +4,13 @@
   "description": "VSCode extension for development assistance with Godspeed micro-service framework.",
   "publisher": "Godspeed",
   "license": "MIT",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.74.0"
   },
   "author": {
-    "name": "Ashutosh Tripathi"
+    "name": "Godspeed Systems"
   },
   "homepage": "https://github.com/godspeedsystems/language-tools#readme",
   "bugs": {
