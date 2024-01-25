@@ -37,6 +37,10 @@
         {
           "const": "elasticgraph",
           "description": "Ealasticgraph as datasource"
+        },
+        {
+          "type": "string",
+          "description": "Custom datasource type."
         }
       ]
     }

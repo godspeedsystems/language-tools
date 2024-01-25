@@ -168,7 +168,7 @@
         "required": ["application/json"]
       }
     },
-    "required": ["content"]
+    "required": []
   },
   "authn": {
     "type": "boolean",
@@ -213,10 +213,10 @@
             "required": ["application/json"]
           }
         },
-        "required": ["content"]
+        "required": []
       }
     },
-    "required": ["200"]
+    "required": []
   }
   }
 }
